@@ -45,6 +45,12 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
           >
             المدرسين
           </Link>
+          <Link
+            href="/courses"
+            className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
+          >
+            الدورات
+          </Link>
           <div className="my-10 flex justify-center">
             <Logout />
           </div>
