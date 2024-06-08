@@ -12,7 +12,10 @@ export const SWRProvider = ({ children }: SWRProviderProps) => {
     <SWRConfig
       value={{
         fetcher: async (resource, init) => {
-          console.log('fetching', resource, init);
+          init.headers = {
+            ...init.headers,
+            'Content-Type': 'application/json',
+          };
           const res = await fetch(resource, init);
           if (!res.ok) {
             throw new Error('An error occurred while fetching the data.');
