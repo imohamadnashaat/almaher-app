@@ -3,6 +3,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import SidebarLayout from '../../components/Sidebar';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -21,5 +22,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
     }
   }, [router]);
 
-  return <>{!isLoading && children}</>;
+  return (
+    <>
+      <SidebarLayout>{!isLoading && children}</SidebarLayout>
+    </>
+  );
 }

@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 
-export default function Home() {
+export default function Student() {
   // const { data, error, isLoading } = useSWR(
   //   'https://app.almaher.one/api/auth/protected/'
   // );
@@ -13,7 +13,7 @@ export default function Home() {
   // render data
   return (
     <>
-      <h1>الصفحة الرئيسية</h1>
+      <h1>المدرسين</h1>
       {/* <div>hello {data.name}!</div>; */}
     </>
   );
