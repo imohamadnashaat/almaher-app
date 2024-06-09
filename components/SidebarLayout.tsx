@@ -14,12 +14,14 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       <div
         className={`fixed inset-0 z-30 flex-shrink-0 w-64 bg-white border-l border-gray-200 transition-transform duration-300 transform ${
           sidebarOpen ? 'translate-x-0' : 'translate-x-full'
-        } lg:static lg:inset-auto lg:translate-x-0`}
+        } lg:static lg:inset-auto lg:translate-x-0 flex flex-col`}
       >
         <div className="flex items-center justify-center h-16 bg-blue-500 text-white">
           <h1 className="text-2xl font-semibold">Logo</h1>
         </div>
-        <SidebarLinks /> {/* Use the new component */}
+        <div className="flex-1 overflow-y-auto">
+          <SidebarLinks />
+        </div>
       </div>
 
       {/* Main content */}
@@ -60,7 +62,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
         </header>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 xl:p-10">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>
