@@ -3,7 +3,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import SidebarLayout from '../../components/Sidebar';
+import SidebarLayout from '../../components/SidebarLayout';
 
 interface RootLayoutProps {
   children: React.ReactNode;
