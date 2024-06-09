@@ -14,7 +14,7 @@ export default function Student() {
       <h1>الدورات</h1>
       <div>
         <ul>
-          {data.map((course) => (
+          {data.map((course: any) => (
             <li key={course.course_id}>
               <a href={`/courses/${course.course_id}`}>{course.course_name}</a>
             </li>
