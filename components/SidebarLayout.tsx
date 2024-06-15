@@ -17,7 +17,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
         } lg:static lg:inset-auto lg:translate-x-0 flex flex-col`}
       >
         <div className="flex items-center justify-center h-16 bg-blue-500 text-white">
-          <h1 className="text-2xl font-semibold">Logo</h1>
+          <h1 className="text-2xl font-semibold">الماهر</h1>
         </div>
         <div className="flex-1 overflow-y-auto">
           <SidebarLinks />
