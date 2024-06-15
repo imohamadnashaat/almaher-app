@@ -8,7 +8,7 @@ import { Period } from '../../lib/types';
 
 export default function Periods() {
   const { data, error } = useSWR<Period[]>(
-    'https://app.almaher.one/api/periods/'
+    'https://api.almaher.xyz/api/periods/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
 

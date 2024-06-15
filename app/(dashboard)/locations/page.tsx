@@ -8,7 +8,7 @@ import { Position } from '../../lib/types';
 
 export default function Positions() {
   const { data, error } = useSWR<Position[]>(
-    'https://app.almaher.one/api/positions/'
+    'https://api.almaher.xyz/api/positions/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
 

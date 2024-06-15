@@ -8,7 +8,7 @@ import { Course } from '../../lib/types';
 
 export default function Courses() {
   const { data, error } = useSWR<Course[]>(
-    'https://app.almaher.one/api/courses/'
+    'https://api.almaher.xyz/api/courses/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
 

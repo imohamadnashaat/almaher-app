@@ -13,7 +13,7 @@ export interface Level {
 
 export default function Levels() {
   const { data, error } = useSWR<Level[]>(
-    'https://app.almaher.one/api/levels/'
+    'https://api.almaher.xyz/api/levels/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
 

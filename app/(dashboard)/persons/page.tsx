@@ -9,7 +9,7 @@ import { Person } from '../../lib/types';
 
 export default function Persons() {
   const { data, error } = useSWR<Person[]>(
-    'https://app.almaher.one/api/persons/'
+    'https://api.almaher.xyz/api/persons/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
   const router = useRouter();
