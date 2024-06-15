@@ -4,35 +4,19 @@ import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
-import { Course } from '../../lib/types';
+import { Period } from '../../lib/types';
 
-export default function Courses() {
-  const { data, error } = useSWR<Course[]>(
-    'https://app.almaher.one/api/courses/'
+export default function Periods() {
+  const { data, error } = useSWR<Period[]>(
+    'https://app.almaher.one/api/periods/'
   );
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const columns = useMemo<ColumnDef<Course, any>[]>(
+  const columns = useMemo<ColumnDef<Period, any>[]>(
     () => [
       {
-        accessorKey: 'course_id',
-        header: 'Course ID',
-      },
-      {
-        accessorKey: 'course_name',
-        header: 'Course Name',
-      },
-      {
-        accessorKey: 'start_date',
-        header: 'Start Date',
-      },
-      {
-        accessorKey: 'end_date',
-        header: 'End Date',
-      },
-      {
-        accessorKey: 'num_of_session',
-        header: 'Number of Sessions',
+        accessorKey: 'time_name',
+        header: 'Time Name',
       },
       {
         accessorKey: 'create_date',

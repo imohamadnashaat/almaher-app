@@ -1,3 +1,5 @@
+import { time } from 'console';
+
 export interface Person {
   person_id: number;
   type_id: string;
@@ -21,5 +23,15 @@ export interface Course {
   start_date: string;
   end_date: string;
   num_of_session: number;
+  create_date: string;
+}
+
+export interface Period {
+  time_name: string;
+  create_date: string;
+}
+
+export interface Position {
+  position_name: string;
   create_date: string;
 }

@@ -81,7 +81,7 @@ const SidebarLinks = () => {
       {/* End Divider */}
 
       <Link
-        href="/attendance"
+        href="/attendances"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
         الحضور
