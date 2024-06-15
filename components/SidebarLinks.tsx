@@ -58,22 +58,22 @@ const SidebarLinks = () => {
         الجلسات
       </Link>
       <Link
-        href="/student-sessions-management"
+        href="/sessions/managements"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
         ادارة جلسات الطلاب
       </Link>
       <Link
-        href="/student-sessions-view"
+        href="/sessions/students"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
-        عرض جلسات الطلاب
+        قائمة جلسات الطلاب
       </Link>
       <Link
-        href="/sessions-waitlist"
+        href="/sessions/students/waitlist"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
-        قائمة انتظار الجلسات
+        قائمة انتظار الطلاب
       </Link>
 
       {/* Start Divider */}
