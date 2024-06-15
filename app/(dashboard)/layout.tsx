@@ -15,10 +15,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const selectedCourseId = localStorage.getItem('selectedCourseId');
     if (!token) {
       router.push('/login');
     } else {
       setIsLoading(false);
+    }
+    if (!selectedCourseId) {
+      router.push('/courses/select-course');
     }
   }, [router]);
 
