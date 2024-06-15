@@ -2,12 +2,12 @@
 
 import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
-import DataTable from '../../../components/DataTable';
+import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { Person } from '../../lib/types';
+import { Person } from '../../../lib/types';
 
-export default function Persons() {
+export default function Students() {
   const { data, error } = useSWR<Person[]>(
     'https://app.almaher.one/api/persons/'
   );
@@ -15,11 +15,11 @@ export default function Persons() {
   const router = useRouter();
 
   const handleView = (id: number) => {
-    router.push(`/persons/${id}`);
+    router.push(`/persons/students/${id}`);
   };
 
   const handleUpdate = (id: number) => {
-    router.push(`/persons/update/${id}`);
+    router.push(`/persons/students/update/${id}`);
   };
 
   const handleDelete = (id: number) => {

@@ -23,25 +23,25 @@ const SidebarLinks = () => {
         الأشخاص
       </Link>
       <Link
-        href="/teachers"
+        href="/persons/teachers"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
         المدرسين
       </Link>
       <Link
-        href="/students"
+        href="/persons/students"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
         الطلاب
       </Link>
       <Link
-        href="/graduates"
+        href="/persons/graduates"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
-        المتخرجين
+        الخريجين
       </Link>
       <Link
-        href="/persons-waitlist"
+        href="/persons/waitlist"
         className="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 hover:bg-gray-200"
       >
         قائمة انتظار الأشخاص
