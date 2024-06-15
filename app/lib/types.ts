@@ -1,5 +1,3 @@
-import { time } from 'console';
-
 export interface Person {
   person_id: number;
   type_id: string;
@@ -34,4 +32,17 @@ export interface Period {
 export interface Position {
   position_name: string;
   create_date: string;
+}
+
+export interface AttendanceDetail {
+  id: number;
+  day: string;
+  status: boolean;
+}
+
+export interface Attendance {
+  person_id: number;
+  person_name: string;
+  session_number: number;
+  attendance_details: AttendanceDetail[];
 }
