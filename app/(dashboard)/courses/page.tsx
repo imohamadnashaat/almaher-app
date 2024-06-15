@@ -5,15 +5,7 @@ import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-
-interface Course {
-  course_id: number;
-  course_name: string;
-  start_date: string;
-  end_date: string;
-  num_of_session: number;
-  create_date: string;
-}
+import { Course } from '../../lib/types';
 
 export default function Courses() {
   const { data, error } = useSWR<Course[]>(

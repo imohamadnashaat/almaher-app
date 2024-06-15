@@ -14,3 +14,12 @@ export interface Person {
   create_date: string;
   level_id: string;
 }
+
+export interface Course {
+  course_id: number;
+  course_name: string;
+  start_date: string;
+  end_date: string;
+  num_of_session: number;
+  create_date: string;
+}
