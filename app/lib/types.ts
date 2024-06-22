@@ -46,3 +46,15 @@ export interface Attendance {
   session_number: number;
   attendance_details: AttendanceDetail[];
 }
+
+export interface Session {
+  session_id: number;
+  teacher_full_name: string;
+  session_number: number;
+  create_date: string;
+  course_id: number;
+  level_id: string;
+  position_id: string;
+  time_id: string;
+  teacher_id: number;
+}
