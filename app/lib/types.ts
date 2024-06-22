@@ -58,3 +58,12 @@ export interface Session {
   time_id: string;
   teacher_id: number;
 }
+
+export interface SessionStudent {
+  id: number;
+  student_full_name: string;
+  session_data: Session;
+  create_date: string;
+  session_id: number;
+  student_id: number;
+}
