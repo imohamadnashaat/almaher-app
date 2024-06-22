@@ -12,9 +12,7 @@ export interface Level {
 }
 
 export default function Levels() {
-  const { data, error } = useSWR<Level[]>(
-    'https://api.almaher.xyz/api/levels/'
-  );
+  const { data, error } = useSWR<Level[]>('levels/');
   const [globalFilter, setGlobalFilter] = useState('');
 
   const columns = useMemo<ColumnDef<Level, any>[]>(

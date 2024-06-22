@@ -8,9 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Person } from '../../../lib/types';
 
 export default function Waitlist() {
-  const { data, error } = useSWR<Person[]>(
-    'https://api.almaher.xyz/api/persons/?status=0'
-  );
+  const { data, error } = useSWR<Person[]>('persons/?status=0');
   const [globalFilter, setGlobalFilter] = useState('');
   const router = useRouter();
 

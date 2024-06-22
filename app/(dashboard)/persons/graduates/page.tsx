@@ -8,9 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Person } from '../../../lib/types';
 
 export default function Graduates() {
-  const { data, error } = useSWR<Person[]>(
-    'https://api.almaher.xyz/api/persons/?type=Graduate'
-  );
+  const { data, error } = useSWR<Person[]>('persons/?type=Graduate');
   const [globalFilter, setGlobalFilter] = useState('');
   const router = useRouter();
 

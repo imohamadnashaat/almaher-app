@@ -7,9 +7,7 @@ import { Course } from '../../../lib/types';
 
 export default function SelectCourse() {
   const router = useRouter();
-  const { data, error } = useSWR<Course[]>(
-    'https://api.almaher.xyz/api/courses/'
-  );
+  const { data, error } = useSWR<Course[]>('courses/');
   const [selectedCourseId, setSelectedCourseId] = useState('');
 
   const handleSelectChange = (event: any) => {

@@ -9,7 +9,7 @@ import { Attendance } from '../../lib/types';
 export default function Attendances() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
   const { data, error } = useSWR<Attendance[]>(
-    `https://api.almaher.xyz/api/attendances/persons/?course_id=${selectedCourseId}`
+    `attendances/persons/?course_id=${selectedCourseId}`
   );
   const [globalFilter, setGlobalFilter] = useState('');
 

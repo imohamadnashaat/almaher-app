@@ -7,9 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Period } from '../../lib/types';
 
 export default function Periods() {
-  const { data, error } = useSWR<Period[]>(
-    'https://api.almaher.xyz/api/periods/'
-  );
+  const { data, error } = useSWR<Period[]>('periods/');
   const [globalFilter, setGlobalFilter] = useState('');
 
   const columns = useMemo<ColumnDef<Period, any>[]>(

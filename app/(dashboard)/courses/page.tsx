@@ -7,9 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Course } from '../../lib/types';
 
 export default function Courses() {
-  const { data, error } = useSWR<Course[]>(
-    'https://api.almaher.xyz/api/courses/'
-  );
+  const { data, error } = useSWR<Course[]>('courses/');
   const [globalFilter, setGlobalFilter] = useState('');
 
   const columns = useMemo<ColumnDef<Course, any>[]>(

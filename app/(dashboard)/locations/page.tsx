@@ -7,9 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Position } from '../../lib/types';
 
 export default function Positions() {
-  const { data, error } = useSWR<Position[]>(
-    'https://api.almaher.xyz/api/positions/'
-  );
+  const { data, error } = useSWR<Position[]>('positions/');
   const [globalFilter, setGlobalFilter] = useState('');
 
   const columns = useMemo<ColumnDef<Position, any>[]>(

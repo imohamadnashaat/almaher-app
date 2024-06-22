@@ -9,12 +9,16 @@ interface SWRProviderProps {
 }
 
 export const SWRProvider = ({ children }: SWRProviderProps) => {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_URL || 'https://api.almaher.xyz/api';
+
   const router = useRouter();
 
   const fetcher = async (resource: string, init: RequestInit) => {
     const token = localStorage.getItem('token');
+    const url = `${baseUrl}/${resource}`;
 
-    const res = await fetch(resource, {
+    const res = await fetch(url, {
       ...init,
       headers: {
         'Content-Type': 'application/json',
