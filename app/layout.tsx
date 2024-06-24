@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { Inter } from 'next/font/google';
+import { Inter, Cairo } from 'next/font/google';
 import { SWRProvider } from './swr-provider';
 
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Cairo({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Almaher',

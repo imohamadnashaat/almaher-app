@@ -20,15 +20,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
       router.push('/login');
     } else {
       setIsLoading(false);
-    }
-    if (!selectedCourseId) {
-      router.push('/courses/select-course');
+      if (!selectedCourseId) {
+        router.push('/courses/select-course');
+      }
     }
   }, [router]);
 
   return (
     <>
-      <SidebarLayout>{!isLoading && children}</SidebarLayout>
+      <SidebarLayout>
+        {!isLoading ? (
+          children
+        ) : (
+          <div className="h-full text-4xl font-bold text-center py-12 animate-pulse">
+            الماهر
+          </div>
+        )}
+      </SidebarLayout>
     </>
   );
 }

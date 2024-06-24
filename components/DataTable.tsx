@@ -42,63 +42,71 @@ function DataTable<T>({
   });
 
   return (
-    <div className="p-4">
-      {setGlobalFilter && (
-        <input
-          value={globalFilter ?? ''}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="mb-4 p-2 border border-gray-300 rounded w-full"
-          placeholder="Search all columns..."
-        />
-      )}
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b">
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  className="p-2 text-left"
-                >
-                  {header.isPlaceholder ? null : (
-                    <div
-                      className={`flex items-center ${
-                        header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : ''
-                      }`}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {header.column.getIsSorted() ? (
-                        <span className="ml-2">
-                          {header.column.getIsSorted() === 'asc' ? '🔼' : '🔽'}
-                        </span>
-                      ) : null}
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b">
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-4 flex items-center justify-between">
+    <div className="-m-4">
+      <div className="p-4">
+        {setGlobalFilter && (
+          <input
+            value={globalFilter ?? ''}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="mb-4 p-2 border border-gray-300 rounded w-full"
+            placeholder="Search all columns..."
+          />
+        )}
+      </div>
+
+      <div className="max-w-full overflow-x-auto px-4">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="border-b whitespace-nowrap">
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="p-2 text-left"
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div
+                        className={`flex items-center ${
+                          header.column.getCanSort()
+                            ? 'cursor-pointer select-none'
+                            : ''
+                        }`}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {header.column.getIsSorted() ? (
+                          <span className="ml-2">
+                            {header.column.getIsSorted() === 'asc'
+                              ? '🔼'
+                              : '🔽'}
+                          </span>
+                        ) : null}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="border-b">
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="p-2 whitespace-nowrap">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between p-4">
         <div className="flex items-center gap-2">
           <button
             className="border rounded p-1"
@@ -160,7 +168,7 @@ function DataTable<T>({
           ))}
         </select>
       </div>
-      <div>
+      <div className="p-4">
         Showing {table.getRowModel().rows.length} of{' '}
         {table.getPrePaginationRowModel().rows.length} rows
       </div>
