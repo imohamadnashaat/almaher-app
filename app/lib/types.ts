@@ -81,3 +81,13 @@ export interface SessionStudent {
   session_id: number;
   student_id: number;
 }
+
+export interface SessionStudentDetails {
+  id: number;
+  student_full_name: string;
+  session_data: Session;
+  student_data: Person;
+  create_date: string;
+  session_id: number;
+  student_id: number;
+}
