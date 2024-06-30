@@ -5,12 +5,12 @@ import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { Session } from '../../lib/types';
+import { SessionDetails } from '../../lib/types';
 
 export default function Sessions() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error } = useSWR<Session[]>(
-    `sessions/?course_id=${selectedCourseId}`
+  const { data, error } = useSWR<SessionDetails[]>(
+    `sessions/details/?course_id=${selectedCourseId}`
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
@@ -28,42 +28,36 @@ export default function Sessions() {
     // TODO: Implement delete
   };
 
-  const columns = useMemo<ColumnDef<Session, any>[]>(
+  const columns = useMemo<ColumnDef<SessionDetails, any>[]>(
     () => [
       {
-        accessorKey: 'session_id',
-        header: 'ID',
-      },
-      {
         accessorKey: 'session_number',
-        header: 'Session Number',
+        header: 'رقم الجلسة',
       },
       {
         accessorKey: 'teacher_full_name',
-        header: 'Teacher',
+        header: 'المدرس',
       },
       {
-        accessorKey: 'course_id',
-        header: 'Course',
+        accessorKey: 'level_id_id',
+        header: 'المستوى',
       },
       {
-        accessorKey: 'level_id',
-        header: 'Level',
+        accessorKey: 'position_id_id',
+        header: 'المكان',
       },
       {
-        accessorKey: 'position_id',
-        header: 'Position',
+        accessorKey: 'time_id_id',
+        header: 'الوقت',
       },
       {
-        accessorKey: 'time_id',
-        header: 'Time',
+        accessorKey: 'total_students',
+        header: 'عدد الطلاب',
       },
-
       {
-        accessorKey: 'create_date',
-        header: 'Create Date',
+        accessorKey: 'avg_student_bdate_year',
+        header: 'متوسط العمر',
       },
-
       {
         id: 'actions',
         header: 'Actions',
