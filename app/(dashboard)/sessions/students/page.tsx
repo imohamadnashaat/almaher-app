@@ -4,51 +4,45 @@ import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
-import { SessionStudent } from '../../../lib/types';
+import { SessionStudentDetails } from '../../../lib/types';
 
 export default function SessionsStudents() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error } = useSWR<SessionStudent[]>(
-    `sessions/students/?course_id=${selectedCourseId}`
+  const { data, error } = useSWR<SessionStudentDetails[]>(
+    `sessions/students/details/?course_id=${selectedCourseId}`
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const dataWithIndex = useMemo(
-    () => data?.map((item, index) => ({ ...item, index: index + 1 })) || [],
-    [data]
-  );
-
-  const columns = useMemo<ColumnDef<SessionStudent & { index: number }, any>[]>(
+  const columns = useMemo<ColumnDef<SessionStudentDetails, any>[]>(
     () => [
       {
-        accessorFn: (row) => row.index,
-        id: 'index',
-        header: 'No.',
+        accessorKey: 'session_data.session_number',
+        header: 'رقم الجلسة',
       },
       {
         accessorKey: 'student_full_name',
-        header: 'Student',
+        header: 'الاسم',
       },
       {
-        accessorKey: 'session_data.session_number',
-        header: 'Session Number',
-      },
-      {
-        accessorKey: 'session_data.course_id',
-        header: 'Course',
+        accessorKey: 'student_data.father_name',
+        header: 'اسم الاب',
       },
       {
         accessorKey: 'session_data.level_id',
-        header: 'Level',
+        header: 'المستوى',
+      },
+      {
+        accessorKey: 'session_data.time_id',
+        header: 'الوقت',
+      },
+      {
+        accessorKey: 'session_data.position_id',
+        header: 'المكان',
       },
       {
         accessorKey: 'session_data.teacher_full_name',
-        header: 'Teacher',
-      },
-      {
-        accessorKey: 'create_date',
-        header: 'Create Date',
+        header: 'المدرس',
       },
     ],
     []
@@ -59,7 +53,7 @@ export default function SessionsStudents() {
 
   return (
     <DataTable
-      data={dataWithIndex}
+      data={data}
       columns={columns}
       globalFilter={globalFilter}
       setGlobalFilter={setGlobalFilter}
