@@ -31,37 +31,57 @@ export default function Persons() {
         header: 'ID',
       },
       {
+        accessorKey: 'type_id',
+        header: 'النوع',
+      },
+      {
         accessorKey: 'first_name',
-        header: 'First Name',
+        header: 'الاسم',
       },
       {
         accessorKey: 'last_name',
-        header: 'Last Name',
+        header: 'الكنية',
       },
       {
         accessorKey: 'father_name',
-        header: 'Father Name',
+        header: 'سام الأب',
+      },
+      {
+        accessorKey: 'home_number',
+        header: 'رقم المنزل',
       },
       {
         accessorKey: 'phone_number',
-        header: 'Phone Number',
+        header: 'رقم الهاتف',
       },
       {
         accessorKey: 'job',
-        header: 'Job',
+        header: 'العمل',
       },
       {
         accessorKey: 'address',
-        header: 'Address',
+        header: 'العنوان',
       },
       {
         accessorKey: 'bdate',
-        header: 'Birth Date',
+        header: 'تاريخ الميلاد',
+      },
+      {
+        accessorKey: 'level_id',
+        header: 'المستوى',
+      },
+      {
+        accessorKey: 'priority_id',
+        header: 'الأولوية',
       },
       {
         accessorKey: 'status',
-        header: 'Status',
-        cell: (info) => (info.getValue() ? 'Active' : 'Inactive'),
+        header: 'الحالة',
+        cell: (info) => (info.getValue() ? '🟢' : '🔴'),
+      },
+      {
+        accessorKey: 'create_date',
+        header: 'تاريخ الانضمام',
       },
       {
         id: 'actions',

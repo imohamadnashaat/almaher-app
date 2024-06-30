@@ -11,8 +11,8 @@ export interface Person {
   bdate: string;
   priority_id: string;
   status: boolean;
-  create_date: string;
   level_id: string;
+  create_date: string;
 }
 
 export interface Course {
