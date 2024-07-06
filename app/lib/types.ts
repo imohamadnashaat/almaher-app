@@ -91,3 +91,11 @@ export interface SessionStudentDetails {
   session_id: number;
   student_id: number;
 }
+
+export interface SessionAvailableStudent {
+  person_id: number;
+  first_name: string;
+  last_name: string;
+  bdate: string;
+  level_id_id: string;
+}
