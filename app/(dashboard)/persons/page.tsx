@@ -117,11 +117,19 @@ export default function Persons() {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <DataTable
-      data={data}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <button
+        onClick={() => router.push('/persons/add')}
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors"
+      >
+        إضافة شخص
+      </button>
+      <DataTable
+        data={data}
+        columns={columns}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+    </>
   );
 }
