@@ -119,7 +119,7 @@ export default function Persons() {
 
   return (
     <>
-      <Button label="إضافة شخص" redirectTo="/persons/add"></Button>
+      <Button label="إضافة شخص" redirectTo="/persons/add" />
       <DataTable
         data={data}
         columns={columns}
