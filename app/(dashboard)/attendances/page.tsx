@@ -13,6 +13,11 @@ export default function Attendances() {
   );
   const [globalFilter, setGlobalFilter] = useState('');
 
+  const handleToggle = (id: number) => {
+    // TODO: Implement toggle by calling API to update attendance status for the given id
+    // attendances/toggle/:id/
+  };
+
   const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {
     const commonColumns: ColumnDef<Attendance, any>[] = [
       {
@@ -44,17 +49,13 @@ export default function Attendances() {
             return detail ? (
               detail.status ? (
                 <input
-                  onChange={() => {
-                    console.log('clicked checked', detail.id);
-                  }}
+                  onChange={() => handleToggle(detail.id)}
                   type="checkbox"
                   checked
                 />
               ) : (
                 <input
-                  onChange={() => {
-                    console.log('clicked unchecked', detail.id);
-                  }}
+                  onChange={() => handleToggle(detail.id)}
                   type="checkbox"
                 />
               )

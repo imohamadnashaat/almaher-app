@@ -13,11 +13,11 @@ export default function Waitlist() {
   const router = useRouter();
 
   const handleView = (id: number) => {
-    router.push(`/persons/waitlist/${id}`);
+    router.push(`/persons/${id}`);
   };
 
   const handleUpdate = (id: number) => {
-    router.push(`/persons/waitlist/update/${id}`);
+    router.push(`/persons/update/${id}`);
   };
 
   const handleDelete = (id: number) => {

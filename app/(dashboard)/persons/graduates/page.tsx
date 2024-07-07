@@ -13,11 +13,11 @@ export default function Graduates() {
   const router = useRouter();
 
   const handleView = (id: number) => {
-    router.push(`/persons/graduates/${id}`);
+    router.push(`/persons/${id}`);
   };
 
   const handleUpdate = (id: number) => {
-    router.push(`/persons/graduates/update/${id}`);
+    router.push(`/persons/update/${id}`);
   };
 
   const handleDelete = (id: number) => {
