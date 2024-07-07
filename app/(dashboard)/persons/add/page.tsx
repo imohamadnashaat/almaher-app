@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { Person } from '../../../../lib/types';
+import { Person } from '../../../lib/types';
 
 export default function PersonAdd() {
   const {

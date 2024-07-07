@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { Person } from '../../../../../lib/types';
+import { Person } from '../../../../lib/types';
 
 export default function PersonUpdate() {
   const pathName = usePathname();
