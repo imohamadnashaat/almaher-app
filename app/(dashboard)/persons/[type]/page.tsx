@@ -1,19 +1,36 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { Person } from '../../../lib/types';
+import Button from '../../../../components/Button';
 
-export default function Waitlist() {
-  const { data, error } = useSWR<Person[]>('persons/?status=0');
+export default function Persons() {
+  const pathName = usePathname();
+  const type = pathName.split('/').pop();
+  let url = 'persons/';
+  if (type === 'all') {
+    url += '';
+  } else if (type === 'students') {
+    url += '?type=Student';
+  } else if (type === 'teachers') {
+    url += '?type=Teacher';
+  } else if (type === 'graduates') {
+    url += '?type=Graduate';
+  } else {
+    url += '?status=0';
+  }
+
+  const { data, error } = useSWR<Person[]>(url);
   const [globalFilter, setGlobalFilter] = useState('');
   const router = useRouter();
 
   const handleView = (id: number) => {
-    router.push(`/persons/${id}`);
+    router.push(`/persons/view/${id}`);
   };
 
   const handleUpdate = (id: number) => {
@@ -29,6 +46,10 @@ export default function Waitlist() {
       {
         accessorKey: 'person_id',
         header: 'ID',
+      },
+      {
+        accessorKey: 'type_id',
+        header: 'النوع',
       },
       {
         accessorKey: 'first_name',
@@ -113,11 +134,14 @@ export default function Waitlist() {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <DataTable
-      data={data}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <Button label="إضافة شخص" redirectTo="/persons/add" />
+      <DataTable
+        data={data}
+        columns={columns}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+    </>
   );
 }
