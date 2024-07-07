@@ -1,87 +1,51 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import useSWR from 'swr';
-import DataTable from '../../../components/DataTable';
-import { ColumnDef } from '@tanstack/react-table';
-import { Attendance } from '../../lib/types';
-import { putWithToken } from '../../lib/api';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function Attendances() {
-  const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error } = useSWR<Attendance[]>(
-    `attendances/persons/?course_id=${selectedCourseId}`
-  );
-  const [globalFilter, setGlobalFilter] = useState('');
+export default function AttendanceSelect() {
+  const router = useRouter();
+  const [attendanceType, setAttendanceType] = useState('teachers');
+  const [error, setError] = useState<string | null>(null);
 
-  const handleToggle = async (id: number) => {
-    const updatedAttendance = await putWithToken(`attendances/toggle/${id}/`);
-    if (!updatedAttendance) {
-      alert('Failed to update attendance');
-    }
+  const handleAttendanceType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setAttendanceType(event.target.value);
+    setError(null); // Clear previous errors when input changes
   };
 
-  const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {
-    const commonColumns: ColumnDef<Attendance, any>[] = [
-      {
-        accessorKey: 'person_id',
-        header: 'ID',
-      },
-      {
-        accessorKey: 'person_name',
-        header: 'Name',
-      },
-      {
-        accessorKey: 'session_number',
-        header: 'Session Number',
-      },
-    ];
-
-    // Dynamically create columns for each day in attendance_details
-    const attendanceColumns: ColumnDef<Attendance, any>[] = [];
-    if (data && data.length > 0) {
-      const days = data[0].attendance_details.map((detail) => detail.day);
-      days.forEach((day) => {
-        attendanceColumns.push({
-          id: day,
-          header: day,
-          cell: ({ row }) => {
-            const detail = row.original.attendance_details.find(
-              (d) => d.day === day
-            );
-            return detail ? (
-              detail.status ? (
-                <input
-                  onChange={() => handleToggle(detail.id)}
-                  type="checkbox"
-                  checked
-                />
-              ) : (
-                <input
-                  onChange={() => handleToggle(detail.id)}
-                  type="checkbox"
-                />
-              )
-            ) : (
-              'N/A'
-            );
-          },
-        });
-      });
+  const handleClick = async () => {
+    if (!attendanceType) {
+      setError('يرجى إدخال الحضور');
+      return;
     }
 
-    return [...commonColumns, ...attendanceColumns];
-  }, [data]);
-
-  if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+    router.push(`/attendances/${attendanceType}`);
+  };
 
   return (
-    <DataTable
-      data={data}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <h1 className="text-2xl font-bold mb-4">اختر الحضور</h1>
+      <select
+        value={attendanceType}
+        onChange={handleAttendanceType} // Corrected from onSelect to onChange
+        className="input input-bordered rounded-lg w-full max-w-xs me-2"
+        aria-label="Session Number"
+      >
+        <option value="teachers">المدرسين</option>
+        <option value="students">الطلاب</option>
+      </select>
+
+      <button
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+        onClick={handleClick}
+        disabled={!attendanceType}
+      >
+        اختيار
+      </button>
+
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+    </>
   );
 }
