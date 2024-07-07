@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
@@ -13,16 +13,36 @@ export default function Attendances() {
   const type = pathName.split('/').pop();
 
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error } = useSWR<Attendance[]>(
+  const { data, error, mutate } = useSWR<Attendance[]>(
     `attendances/${type}/?course_id=${selectedCourseId}`
   );
+
   const [globalFilter, setGlobalFilter] = useState('');
+  const [localData, setLocalData] = useState<Attendance[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setLocalData(data);
+    }
+  }, [data]);
 
   const handleToggle = async (id: number) => {
     const updatedAttendance = await putWithToken(`attendances/toggle/${id}/`);
     if (!updatedAttendance) {
       alert('Failed to update attendance');
+      return;
     }
+    // Update local data state to reflect the change
+    setLocalData((prevData) =>
+      prevData.map((attendance) => ({
+        ...attendance,
+        attendance_details: attendance.attendance_details.map((detail) =>
+          detail.id === id ? { ...detail, status: !detail.status } : detail
+        ),
+      }))
+    );
+    // Optionally, revalidate the SWR data to keep in sync with the server
+    mutate();
   };
 
   const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {
@@ -43,8 +63,8 @@ export default function Attendances() {
 
     // Dynamically create columns for each day in attendance_details
     const attendanceColumns: ColumnDef<Attendance, any>[] = [];
-    if (data && data.length > 0) {
-      const days = data[0].attendance_details.map((detail) => detail.day);
+    if (localData && localData.length > 0) {
+      const days = localData[0].attendance_details.map((detail) => detail.day);
       days.forEach((day) => {
         attendanceColumns.push({
           id: day,
@@ -54,18 +74,11 @@ export default function Attendances() {
               (d) => d.day === day
             );
             return detail ? (
-              detail.status ? (
-                <input
-                  onChange={() => handleToggle(detail.id)}
-                  type="checkbox"
-                  checked
-                />
-              ) : (
-                <input
-                  onChange={() => handleToggle(detail.id)}
-                  type="checkbox"
-                />
-              )
+              <input
+                onChange={() => handleToggle(detail.id)}
+                type="checkbox"
+                checked={detail.status}
+              />
             ) : (
               'N/A'
             );
@@ -75,14 +88,14 @@ export default function Attendances() {
     }
 
     return [...commonColumns, ...attendanceColumns];
-  }, [data]);
+  }, [localData]);
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!localData) return <div>Loading...</div>;
 
   return (
     <DataTable
-      data={data}
+      data={localData}
       columns={columns}
       globalFilter={globalFilter}
       setGlobalFilter={setGlobalFilter}
