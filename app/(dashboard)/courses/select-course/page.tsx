@@ -26,7 +26,7 @@ export default function SelectCourse() {
     <div>
       <h1>اختر الدورة التدريبية</h1>
       <select
-        className="my-4"
+        className="my-4 me-2 rounded-lg"
         onChange={handleSelectChange}
         value={selectedCourseId}
       >
@@ -37,7 +37,7 @@ export default function SelectCourse() {
         ))}
       </select>
       <button
-        className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors"
         onClick={handleButtonClick}
       >
         اختيار

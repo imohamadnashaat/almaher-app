@@ -6,6 +6,7 @@ import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { Person } from '../../lib/types';
+import Button from '../../../components/Button';
 
 export default function Persons() {
   const { data, error } = useSWR<Person[]>('persons/');
@@ -118,12 +119,7 @@ export default function Persons() {
 
   return (
     <>
-      <button
-        onClick={() => router.push('/persons/add')}
-        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors"
-      >
-        إضافة شخص
-      </button>
+      <Button label="إضافة شخص" redirectTo="/persons/add"></Button>
       <DataTable
         data={data}
         columns={columns}

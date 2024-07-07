@@ -51,19 +51,19 @@ export default function SessionsManagement() {
         value={sessionNumber}
         onChange={handleSessionIdChange}
         placeholder="رقم الجلسة.."
-        className="input input-bordered w-full max-w-xs"
+        className="input input-bordered rounded-lg w-full max-w-xs me-2"
         aria-label="Session Number"
       />
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-
       <button
-        className="mt-4 flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-not-allowed" // Disabled styles
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" // Disabled styles
         onClick={handleClick}
         disabled={!sessionNumber || isValidating} // Disable when input is empty or fetching
       >
-        {isValidating ? 'جار التحميل...' : 'عرض'}
+        {isValidating ? 'عرض' : 'عرض'}
       </button>
+
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </>
   );
 }
