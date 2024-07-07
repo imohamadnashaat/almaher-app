@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Attendance } from '../../lib/types';
+import { putWithToken } from '../../lib/api';
 
 export default function Attendances() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -13,9 +14,11 @@ export default function Attendances() {
   );
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const handleToggle = (id: number) => {
-    // TODO: Implement toggle by calling API to update attendance status for the given id
-    // attendances/toggle/:id/
+  const handleToggle = async (id: number) => {
+    const updatedAttendance = await putWithToken(`attendances/toggle/${id}/`);
+    if (!updatedAttendance) {
+      alert('Failed to update attendance');
+    }
   };
 
   const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {
