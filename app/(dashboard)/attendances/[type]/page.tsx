@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Attendance } from '../../../lib/types';
-import { putWithToken } from '../../../lib/api';
+import { putRequest } from '../../../lib/api';
 
 export default function Attendances() {
   const pathName = usePathname();
@@ -27,7 +27,7 @@ export default function Attendances() {
   }, [data]);
 
   const handleToggle = async (id: number) => {
-    const updatedAttendance = await putWithToken(`attendances/toggle/${id}/`);
+    const updatedAttendance = await putRequest(`attendances/toggle/${id}/`);
     if (!updatedAttendance) {
       alert('Failed to update attendance');
       return;

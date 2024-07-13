@@ -2,35 +2,63 @@
 
 import { useForm } from 'react-hook-form';
 import { Person } from '../../../lib/types';
+import { postRequest } from '../../../lib/api';
 
 export default function PersonAdd() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid },
+    setError,
   } = useForm<Person>();
 
-  const onSubmit = (data: Person) => {
-    // Submit data to the server
-    console.log(data);
+  const onSubmit = async (data: Person) => {
+    try {
+      const result = await postRequest('persons/add/', data);
+      reset();
+    } catch (error) {
+      console.error(error);
+      setError('root', {
+        message: `${error}`,
+      });
+    }
   };
 
   return (
     <article className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-8 text-center">إضافة شخص جديد</h1>
       <section className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form method="post" onSubmit={handleSubmit(onSubmit)}>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <dt className="font-semibold">نوع:</dt>
-              <input
-                type="text"
+              <select
                 {...register('type_id', { required: true })}
-                className="border p-2 rounded w-full"
-              />
+                defaultValue="Student"
+                className="border p-2 rounded w-full text-center"
+              >
+                <option value="Student">طالب</option>
+                <option value="Teacher">مدرس</option>
+              </select>
               {errors.type_id && (
                 <span className="text-red-500">هذا الحقل مطلوب</span>
               )}
+            </div>
+            <div>
+              <dt className="font-semibold">مستوى:</dt>
+              <select
+                {...register('level_id', { required: true })}
+                defaultValue="مبتدئ أ"
+                className="border p-2 rounded w-full text-center"
+              >
+                <option value="مبتدئ أ">مبتدئ أ</option>
+                <option value="مبتدئ ب">مبتدئ ب</option>
+                <option value="متوسط أ">متوسط أ</option>
+                <option value="متوسط ب">متوسط ب</option>
+                <option value="متقدم أ">متقدم أ</option>
+                <option value="متقدم ب">متقدم ب</option>
+              </select>
             </div>
             <div>
               <dt className="font-semibold">الاسم الأول:</dt>
@@ -47,9 +75,12 @@ export default function PersonAdd() {
               <dt className="font-semibold">اسم الأب:</dt>
               <input
                 type="text"
-                {...register('father_name')}
+                {...register('father_name', { required: true })}
                 className="border p-2 rounded w-full"
               />
+              {errors.father_name && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
             <div>
               <dt className="font-semibold">الاسم الأخير:</dt>
@@ -66,9 +97,12 @@ export default function PersonAdd() {
               <dt className="font-semibold">رقم المنزل:</dt>
               <input
                 type="text"
-                {...register('home_number')}
+                {...register('home_number', { required: true })}
                 className="border p-2 rounded w-full"
               />
+              {errors.home_number && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
             <div>
               <dt className="font-semibold">رقم الهاتف:</dt>
@@ -85,57 +119,48 @@ export default function PersonAdd() {
               <dt className="font-semibold">المهنة:</dt>
               <input
                 type="text"
-                {...register('job')}
+                {...register('job', { required: true })}
                 className="border p-2 rounded w-full"
               />
+              {errors.job && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
             <div>
               <dt className="font-semibold">العنوان:</dt>
               <input
                 type="text"
-                {...register('address')}
+                {...register('address', { required: true })}
                 className="border p-2 rounded w-full"
               />
+              {errors.address && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
             <div>
               <dt className="font-semibold">تاريخ الميلاد:</dt>
               <input
-                type="text"
-                {...register('bdate')}
+                type="date"
+                {...register('bdate', { required: true })}
                 className="border p-2 rounded w-full"
               />
+              {errors.bdate && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
             <div>
               <dt className="font-semibold">أولوية:</dt>
-              <input
-                type="text"
-                {...register('priority_id')}
-                className="border p-2 rounded w-full"
-              />
-            </div>
-            <div>
-              <dt className="font-semibold">الحالة:</dt>
-              <input
-                type="checkbox"
-                {...register('status')}
-                className="border p-2 rounded w-full"
-              />
-            </div>
-            <div>
-              <dt className="font-semibold">مستوى:</dt>
-              <input
-                type="text"
-                {...register('level_id')}
-                className="border p-2 rounded w-full"
-              />
-            </div>
-            <div>
-              <dt className="font-semibold">تاريخ الإنشاء:</dt>
-              <input
-                type="text"
-                {...register('create_date')}
-                className="border p-2 rounded w-full"
-              />
+              <select
+                {...register('priority_id', { required: true })}
+                defaultValue="مستمر"
+                className="border p-2 rounded w-full text-center"
+              >
+                <option value="مستمر">مستمر</option>
+                <option value="غير معروف">غير معروف</option>
+              </select>
+              {errors.priority_id && (
+                <span className="text-red-500">هذا الحقل مطلوب</span>
+              )}
             </div>
           </dl>
           <div className="text-center mt-6">
@@ -146,6 +171,12 @@ export default function PersonAdd() {
               إضافة شخص
             </button>
           </div>
+
+          {errors.root && (
+            <div className="text-red-600 text-sm font-medium">
+              {errors.root.message}
+            </div>
+          )}
         </form>
       </section>
     </article>
