@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 import { Person } from '../../../lib/types';
 import { postRequest } from '../../../lib/api';
 
@@ -17,6 +18,9 @@ export default function PersonAdd() {
     try {
       const result = await postRequest('persons/add/', data);
       reset();
+      toast.success('تم إضافة الشخص بنجاح', {
+        duration: 5000,
+      });
     } catch (error) {
       console.error(error);
       setError('root', {
@@ -170,6 +174,7 @@ export default function PersonAdd() {
             >
               إضافة شخص
             </button>
+            <Toaster />
           </div>
 
           {errors.root && (
