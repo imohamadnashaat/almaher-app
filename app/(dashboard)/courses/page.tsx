@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Course } from '../../lib/types';
+import Loading from '../../../components/Loading';
 
 export default function Courses() {
   const { data, error } = useSWR<Course[]>('courses/');
@@ -41,7 +42,7 @@ export default function Courses() {
   );
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <DataTable

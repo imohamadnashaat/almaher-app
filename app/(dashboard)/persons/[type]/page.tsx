@@ -8,6 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { Person } from '../../../lib/types';
 import Button from '../../../../components/Button';
+import Loading from '../../../../components/Loading';
 
 export default function Persons() {
   const pathName = usePathname();
@@ -131,7 +132,7 @@ export default function Persons() {
   );
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <>

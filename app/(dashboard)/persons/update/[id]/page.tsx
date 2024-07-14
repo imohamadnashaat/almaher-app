@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { useState } from 'react';
 import { Person } from '../../../../lib/types';
+import Loading from '../../../../../components/Loading';
 
 export default function PersonUpdate() {
   const pathName = usePathname();
@@ -13,7 +14,7 @@ export default function PersonUpdate() {
   const [formData, setFormData] = useState<Person | null>(null);
 
   if (error) return <div className="text-red-500 p-4">Failed to load</div>;
-  if (!data) return <div className="text-gray-500 p-4">Loading...</div>;
+  if (!data) return <Loading />;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

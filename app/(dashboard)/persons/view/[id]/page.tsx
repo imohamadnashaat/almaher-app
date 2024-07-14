@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { Person } from '../../../../lib/types';
+import Loading from '../../../../../components/Loading';
 
 export default function PersonView() {
   const pathName = usePathname();
@@ -11,7 +12,7 @@ export default function PersonView() {
   const { data, error } = useSWR<Person>(`persons/${id}`);
 
   if (error) return <div className="text-red-500 p-4">Failed to load</div>;
-  if (!data) return <div className="text-gray-500 p-4">Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <article className="container mx-auto p-4">

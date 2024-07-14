@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
+import Loading from '../../../components/Loading';
 
 export interface Level {
   level_name: string;
@@ -34,7 +35,7 @@ export default function Levels() {
   );
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <DataTable

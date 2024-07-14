@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { Course } from '../../../lib/types';
+import Loading from '../../../../components/Loading';
 
 export default function SelectCourse() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function SelectCourse() {
   };
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <div>

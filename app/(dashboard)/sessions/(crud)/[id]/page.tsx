@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { Session, SessionStudentDetails } from '../../../../lib/types';
+import Loading from '../../../../../components/Loading';
 
 export default function SessionView() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -23,8 +24,7 @@ export default function SessionView() {
 
   if (sessionError || studentsError)
     return <div className="text-red-500">Failed to load</div>;
-  if (!sessionData || !studentsData)
-    return <div className="text-gray-500">Loading...</div>;
+  if (!sessionData || !studentsData) return <Loading />;
 
   return (
     <div className="container mx-auto p-4">

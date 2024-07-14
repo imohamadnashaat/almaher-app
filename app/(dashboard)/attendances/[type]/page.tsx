@@ -7,6 +7,7 @@ import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Attendance } from '../../../lib/types';
 import { putRequest } from '../../../lib/api';
+import Loading from '../../../../components/Loading';
 
 export default function Attendances() {
   const pathName = usePathname();
@@ -91,7 +92,7 @@ export default function Attendances() {
   }, [localData]);
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!localData) return <div>Loading...</div>;
+  if (!localData) return <Loading />;
 
   return (
     <DataTable

@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Period } from '../../lib/types';
+import Loading from '../../../components/Loading';
 
 export default function Periods() {
   const { data, error } = useSWR<Period[]>('periods/');
@@ -25,7 +26,7 @@ export default function Periods() {
   );
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <DataTable

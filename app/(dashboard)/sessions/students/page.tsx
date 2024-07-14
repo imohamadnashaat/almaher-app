@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { SessionStudentDetails } from '../../../lib/types';
+import Loading from '../../../../components/Loading';
 
 export default function SessionsStudents() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -49,7 +50,7 @@ export default function SessionsStudents() {
   );
 
   if (error) return <div>Failed to load. {error.message}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   return (
     <DataTable
