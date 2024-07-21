@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { Person } from '../../../lib/types';
 import { postRequest } from '../../../lib/api';
 
@@ -174,7 +174,6 @@ export default function PersonAdd() {
             >
               إضافة شخص
             </button>
-            <Toaster />
           </div>
 
           {errors.root && (

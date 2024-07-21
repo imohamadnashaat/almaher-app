@@ -10,7 +10,7 @@ import { Person } from '../../../lib/types';
 import Button from '../../../../components/Button';
 import Loading from '../../../../components/Loading';
 import { downloadExcelFile } from '../../../lib/api';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export default function Persons() {
   const pathName = usePathname();
@@ -136,7 +136,7 @@ export default function Persons() {
   if (error) return <div>Failed to load. {error.message}</div>;
   if (!data) return <Loading />;
 
-  const downloadXLSFile = async () => {
+  const downloadDataXLSFile = async () => {
     try {
       const blob = await downloadExcelFile('persons/export/excel/persons');
       const url = window.URL.createObjectURL(blob);
@@ -155,17 +155,44 @@ export default function Persons() {
     }
   };
 
+  const downloadStuckStudentsXLSFile = async () => {
+    try {
+      const blob = await downloadExcelFile(
+        'persons/export/excel/stuck-students' // TODO: Implement stuck students export API - Update duplicated_classes endpoint
+      );
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'stuck-students.xlsx';
+      document.body.appendChild(a); // Append the link to the document
+      a.click(); // Start download
+      a.remove(); // Remove the element
+      window.URL.revokeObjectURL(url); // Release object URL
+    } catch (error) {
+      toast.error('حدث خطأ أثناء تنزيل الملف', {
+        duration: 5000,
+      });
+      console.error('Error downloading the file:', error);
+    }
+  };
+
   return (
     <>
       <Button label="إضافة شخص" redirectTo="/persons/add" />
 
       <button
         className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
-        onClick={downloadXLSFile}
+        onClick={downloadDataXLSFile}
       >
-        تنزيل البيانات excel
+        استخراج البيانات excel
       </button>
-      <Toaster />
+
+      <button
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
+        onClick={downloadStuckStudentsXLSFile}
+      >
+        استخراج بيانات الطلاب العالقين بنفس المستوى excel
+      </button>
 
       <DataTable
         data={data}

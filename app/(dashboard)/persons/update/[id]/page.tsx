@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { Person } from '../../../../lib/types';
@@ -211,7 +211,6 @@ export default function PersonUpdate() {
             >
               تحديث البيانات
             </button>
-            <Toaster />
           </div>
 
           {errors.root && (
