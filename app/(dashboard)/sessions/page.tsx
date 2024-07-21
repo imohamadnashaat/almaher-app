@@ -99,7 +99,7 @@ export default function Sessions() {
         className="bg-gray-400 text-white p-2 mb-4 rounded-lg transition-colors mx-2"
         disabled
       >
-        انشاء الحضور
+        انشاء الجلسات
       </button>
 
       <DownloadButton
