@@ -7,6 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { SessionDetails } from '../../lib/types';
 import Loading from '../../../components/Loading';
+import DownloadButton from '../../../components/DownloadButton';
 
 export default function Sessions() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -93,11 +94,41 @@ export default function Sessions() {
   if (!data) return <Loading />;
 
   return (
-    <DataTable
-      data={data}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <button
+        className="bg-gray-400 text-white p-2 mb-4 rounded-lg transition-colors mx-2"
+        disabled
+      >
+        انشاء الحضور
+      </button>
+
+      <DownloadButton
+        endpoint="sessions/export/excel/sessions"
+        filename="sessions.xlsx"
+        params={{ course_id: selectedCourseId }}
+        label="استخراج بيانات الجلسات excel"
+      />
+
+      <DownloadButton
+        endpoint="sessions/export/pdf/session/student"
+        filename="session_students.pdf"
+        params={{ course_id: selectedCourseId }}
+        label="استخراج بيانات الطلاب pdf"
+      />
+
+      <DownloadButton
+        endpoint="sessions/export/pdf/session/teacher"
+        filename="session_teachers.pdf"
+        params={{ course_id: selectedCourseId }}
+        label="استخراج بيانات المدرسين pdf"
+      />
+
+      <DataTable
+        data={data}
+        columns={columns}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+    </>
   );
 }
