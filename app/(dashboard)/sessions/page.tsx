@@ -110,6 +110,13 @@ export default function Sessions() {
       />
 
       <DownloadButton
+        endpoint="sessions/export/pdf/sessions"
+        filename="sessions.pdf"
+        params={{ course_id: selectedCourseId }}
+        label="استخراج بيانات الجلسات pdf"
+      />
+
+      <DownloadButton
         endpoint="sessions/export/pdf/session/student"
         filename="session_students.pdf"
         params={{ course_id: selectedCourseId }}

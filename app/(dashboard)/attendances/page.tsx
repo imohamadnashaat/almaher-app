@@ -47,14 +47,14 @@ export default function AttendanceSelect() {
         endpoint="attendances/export/pdf/students"
         filename="attendance_students.pdf"
         params={{ course_id: selectedCourseId }}
-        label="استخراج بيانات الطلاب pdf"
+        label="استخراج حضور الطلاب pdf"
       />
 
       <DownloadButton
         endpoint="attendances/export/pdf/teachers"
         filename="attendance_teachers.pdf"
         params={{ course_id: selectedCourseId }}
-        label="استخراج بيانات المدرسين pdf"
+        label="استخراج حضور المدرسين pdf"
       />
 
       <h1 className="text-2xl font-bold mb-4">اختر الحضور</h1>
