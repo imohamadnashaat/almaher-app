@@ -27,7 +27,7 @@ function DataTable<T>({
 }: DataTableProps<T>) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 20,
   });
 
   const table = useReactTable({
@@ -49,7 +49,7 @@ function DataTable<T>({
             value={globalFilter ?? ''}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="mb-4 p-2 border border-gray-300 rounded w-full"
-            placeholder="Search all columns..."
+            placeholder="ابحث هنا..."
           />
         )}
       </div>
@@ -80,9 +80,7 @@ function DataTable<T>({
                         )}
                         {header.column.getIsSorted() ? (
                           <span className="ml-2">
-                            {header.column.getIsSorted() === 'asc'
-                              ? '🔼'
-                              : '🔽'}
+                            {header.column.getIsSorted() === 'asc' ? '^' : 'v'}
                           </span>
                         ) : null}
                       </div>
@@ -138,14 +136,14 @@ function DataTable<T>({
           </button>
         </div>
         <span className="flex items-center gap-1">
-          Page
+          صفحة{' '}
           <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getState().pagination.pageIndex + 1} من{' '}
             {table.getPageCount()}
           </strong>
         </span>
         <span className="flex items-center gap-1">
-          | Go to page:
+          | الانتقال إلى الصفحة:{' '}
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
@@ -161,16 +159,16 @@ function DataTable<T>({
           onChange={(e) => table.setPageSize(Number(e.target.value))}
           className="border p-1 rounded"
         >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
+          {[20, 50, 100].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
-              Show {pageSize}
+              عرض {pageSize}
             </option>
           ))}
         </select>
       </div>
       <div className="p-4">
-        Showing {table.getRowModel().rows.length} of{' '}
-        {table.getPrePaginationRowModel().rows.length} rows
+        عرض {table.getRowModel().rows.length} من{' '}
+        {table.getPrePaginationRowModel().rows.length} سجل
       </div>
     </div>
   );
