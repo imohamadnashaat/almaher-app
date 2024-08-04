@@ -8,7 +8,7 @@ import {
   SessionStudentDetails,
 } from '../../../../lib/types';
 import Loading from '../../../../../components/Loading';
-import { postRequest } from '../../../../lib/api';
+import { deleteRequest, postRequest } from '../../../../lib/api';
 import toast from 'react-hot-toast';
 import SessionsManagement from '../../managements/page';
 
@@ -23,7 +23,7 @@ export default function SessionView() {
     `sessions/${id}`
   );
   // Fetch students data for the session
-  const { data: studentsData, error: studentsError } = useSWR<
+  const { data: sessionStudentsData, error: sessionStudentsError } = useSWR<
     SessionStudentDetails[]
   >(
     `sessions/students/details/?course_id=${selectedCourseId}&session_id=${id}`
@@ -57,9 +57,30 @@ export default function SessionView() {
     }
   };
 
-  if (sessionError || studentsError || waitListError)
+  const handleRemoveStudent = async (sessionStudentId: number) => {
+    try {
+      const result = await deleteRequest(
+        `sessions/students/delete/${sessionStudentId}`
+      );
+      toast.success('تم تحديث البيانات بنجاح', {
+        duration: 2000,
+      });
+      // Update the students list, and the wait list
+      mutate(
+        `sessions/students/details/?course_id=${selectedCourseId}&session_id=${id}`
+      );
+      mutate(`sessions/students/available/?course_id=${selectedCourseId}`);
+    } catch (error) {
+      console.error(error);
+      toast.error('حدث خطأ أثناء تحديث البيانات', {
+        duration: 2000,
+      });
+    }
+  };
+
+  if (sessionError || sessionStudentsError || waitListError)
     return <div className="text-red-500">Failed to load</div>;
-  if (!sessionData || !studentsData || !availableStudentsData)
+  if (!sessionData || !sessionStudentsData || !availableStudentsData)
     return <Loading />;
 
   return (
@@ -109,16 +130,24 @@ export default function SessionView() {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {studentsData.map((student) => (
-            <tr key={student.id} className="border-b">
-              <td className="px-4 py-2">{student.id}</td>
-              <td className="px-4 py-2">{student.student_full_name}</td>
-              <td className="px-4 py-2">{student.student_data.father_name}</td>
-              <td className="px-4 py-2">{student.student_data.bdate}</td>
-              <td className="px-4 py-2">{student.student_data.priority_id}</td>
-              <td className="px-4 py-2">{student.student_data.level_id}</td>
+          {sessionStudentsData.map((sessionStudent) => (
+            <tr key={sessionStudent.id} className="border-b">
+              <td className="px-4 py-2">{sessionStudent.id}</td>
+              <td className="px-4 py-2">{sessionStudent.student_full_name}</td>
               <td className="px-4 py-2">
-                <button>❌</button>
+                {sessionStudent.student_data.father_name}
+              </td>
+              <td className="px-4 py-2">{sessionStudent.student_data.bdate}</td>
+              <td className="px-4 py-2">
+                {sessionStudent.student_data.priority_id}
+              </td>
+              <td className="px-4 py-2">
+                {sessionStudent.student_data.level_id}
+              </td>
+              <td className="px-4 py-2">
+                <button onClick={() => handleRemoveStudent(sessionStudent.id)}>
+                  ❌
+                </button>
               </td>
             </tr>
           ))}
@@ -140,26 +169,28 @@ export default function SessionView() {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {availableStudentsData.map((student) => (
-            <tr key={student.person_id} className="border-b">
-              <td className="px-4 py-2">{student.person_id}</td>
-              <td className="px-4 py-2">
-                {student.first_name} {student.last_name}
-              </td>
-              <td className="px-4 py-2">{'father_name'}</td>
-              <td className="px-4 py-2">{student.bdate}</td>
-              <td className="px-4 py-2">{'priority_id'}</td>
-              <td className="px-4 py-2">{student.level_id_id}</td>
-              <td className="px-4 py-2 text-start">
-                <button
-                  className="w-6 bg-green-500 rounded-2xl"
-                  onClick={() => handleAddStudent(student.person_id)}
-                >
-                  ➕
-                </button>
-              </td>
-            </tr>
-          ))}
+          {availableStudentsData
+            .filter((student) => student.level_id_id === sessionData.level_id)
+            .map((student) => (
+              <tr key={student.person_id} className="border-b">
+                <td className="px-4 py-2">{student.person_id}</td>
+                <td className="px-4 py-2">
+                  {student.first_name} {student.last_name}
+                </td>
+                <td className="px-4 py-2">{'father_name'}</td>
+                <td className="px-4 py-2">{student.bdate}</td>
+                <td className="px-4 py-2">{'priority_id'}</td>
+                <td className="px-4 py-2">{student.level_id_id}</td>
+                <td className="px-4 py-2 text-start">
+                  <button
+                    className="w-6 bg-green-500 rounded-2xl"
+                    onClick={() => handleAddStudent(student.person_id)}
+                  >
+                    ➕
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
