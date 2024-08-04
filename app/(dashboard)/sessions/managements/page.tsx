@@ -45,25 +45,27 @@ export default function SessionsManagement() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4">إدارة الجلسات</h1>
-      <input
-        type="number"
-        value={sessionNumber}
-        onChange={handleSessionIdChange}
-        placeholder="رقم الجلسة.."
-        className="input input-bordered rounded-lg w-full max-w-xs me-2"
-        aria-label="Session Number"
-      />
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-4">إدارة الجلسات</h1>
+        <input
+          type="number"
+          value={sessionNumber}
+          onChange={handleSessionIdChange}
+          placeholder="رقم الجلسة.."
+          className="input input-bordered rounded-lg w-full max-w-xs me-2"
+          aria-label="Session Number"
+        />
 
-      <button
-        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" // Disabled styles
-        onClick={handleClick}
-        disabled={!sessionNumber || isValidating} // Disable when input is empty or fetching
-      >
-        {isValidating ? 'عرض' : 'عرض'}
-      </button>
+        <button
+          className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" // Disabled styles
+          onClick={handleClick}
+          disabled={!sessionNumber || isValidating} // Disable when input is empty or fetching
+        >
+          {isValidating ? 'عرض' : 'عرض'}
+        </button>
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
     </>
   );
 }
