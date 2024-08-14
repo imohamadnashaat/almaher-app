@@ -64,6 +64,23 @@ export interface ExamDetails {
   exams: Exam[];
 }
 
+export interface Result {
+  result_id: number;
+  student_id: number;
+  session_id: number;
+  theoretical_mark: number;
+  practical_mark: number;
+  result: number;
+  attendance: number;
+  result_type: string;
+  student_pass: boolean;
+  create_date: string;
+  // Optional fields for details
+  student_name?: string;
+  session_number?: number;
+  level_name?: string;
+}
+
 export interface Session {
   session_id: number;
   teacher_full_name: string;
