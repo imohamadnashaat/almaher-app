@@ -47,6 +47,23 @@ export interface Attendance {
   attendance_details: AttendanceDetail[];
 }
 
+export interface Exam {
+  exam_id: number;
+  type_id: string;
+  time_id: string;
+  student_id: number;
+  session_id: number;
+  mark: number;
+  create_date: string;
+}
+
+export interface ExamDetails {
+  student_id: number;
+  student_name: string;
+  session_number: number;
+  exams: Exam[];
+}
+
 export interface Session {
   session_id: number;
   teacher_full_name: string;
