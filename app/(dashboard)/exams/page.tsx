@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import useSWR from 'swr';
+import toast from 'react-hot-toast';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { ExamDetails } from '../../lib/types';
@@ -47,6 +48,12 @@ export default function Exams() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newMark = parseFloat(e.target.value);
+      if (newMark < 0 || newMark > 100) {
+        toast.error('Mark should be between 0 and 100', {
+          duration: 2000,
+        });
+        return;
+      }
       setMark(newMark);
       handleUpdateExamMark(examId, newMark);
     };
@@ -55,6 +62,8 @@ export default function Exams() {
       <input
         type="number"
         value={mark}
+        min={0}
+        max={100}
         onChange={handleChange}
         className="w-full border-gray-300 rounded-md"
       />
