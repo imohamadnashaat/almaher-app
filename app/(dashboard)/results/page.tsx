@@ -84,7 +84,7 @@ export default function Results() {
       });
     } catch (error) {
       console.error(error);
-      toast.error('Error while generating exams', {
+      toast.error('Error while generating results', {
         duration: 2000,
       });
     }
