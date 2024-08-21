@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { ExamDetails } from '../../lib/types';
-import { putRequest } from '../../lib/api';
+import { postRequest, putRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
 
 export default function Exams() {
@@ -41,6 +41,22 @@ export default function Exams() {
     );
     // Optionally, revalidate the SWR data to keep in sync with the server
     mutate();
+  };
+
+  const handleGenerateExam = async () => {
+    try {
+      const result = await postRequest(
+        `exams/generate/?course_id=${selectedCourseId}`
+      );
+      toast.success(`${result.message}`, {
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('Error while generating exams', {
+        duration: 2000,
+      });
+    }
   };
 
   const RenderEditableCell = (examId: number, initialMark: number) => {
@@ -78,11 +94,11 @@ export default function Exams() {
       },
       {
         accessorKey: 'student_name',
-        header: 'Name',
+        header: 'الاسم',
       },
       {
         accessorKey: 'session_number',
-        header: 'Session Number',
+        header: 'رقم الجلسة',
       },
       {
         accessorFn: (row) => row.exams[0]?.mark,
@@ -146,11 +162,20 @@ export default function Exams() {
   if (!localData) return <Loading />;
 
   return (
-    <DataTable
-      data={localData}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <button
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
+        onClick={handleGenerateExam}
+      >
+        انشاء الاختبارات
+      </button>
+
+      <DataTable
+        data={localData}
+        columns={columns}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+    </>
   );
 }

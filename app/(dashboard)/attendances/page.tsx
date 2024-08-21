@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DownloadButton from '../../../components/DownloadButton';
+import { postRequest } from '../../lib/api';
+import toast from 'react-hot-toast';
 
 export default function AttendanceSelect() {
   const router = useRouter();
@@ -27,11 +29,27 @@ export default function AttendanceSelect() {
     router.push(`/attendances/${attendanceType}`);
   };
 
+  const handleGenerateAttendance = async () => {
+    try {
+      const result = await postRequest(
+        `attendances/generate/?course_id=${selectedCourseId}`
+      );
+      toast.success(`${result.message}`, {
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('Error while generating attendance', {
+        duration: 2000,
+      });
+    }
+  };
+
   return (
     <>
       <button
-        className="bg-gray-400 text-white p-2 mb-4 rounded-lg transition-colors mx-2"
-        disabled
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
+        onClick={handleGenerateAttendance}
       >
         انشاء الحضور
       </button>

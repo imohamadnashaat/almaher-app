@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Result } from '../../lib/types';
-import { putRequest } from '../../lib/api';
+import { postRequest, putRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
 
 export default function Results() {
@@ -74,15 +74,40 @@ export default function Results() {
     []
   );
 
+  const handleGenerateResults = async () => {
+    try {
+      const result = await postRequest(
+        `results/generate/?course_id=${selectedCourseId}`
+      );
+      toast.success(`${result.message}`, {
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('Error while generating exams', {
+        duration: 2000,
+      });
+    }
+  };
+
   if (error) return <div>Failed to load. {error.message}</div>;
   if (!localData) return <Loading />;
 
   return (
-    <DataTable
-      data={localData}
-      columns={columns}
-      globalFilter={globalFilter}
-      setGlobalFilter={setGlobalFilter}
-    />
+    <>
+      <button
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
+        onClick={handleGenerateResults}
+      >
+        انشاء النتائج
+      </button>
+
+      <DataTable
+        data={localData}
+        columns={columns}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+    </>
   );
 }
