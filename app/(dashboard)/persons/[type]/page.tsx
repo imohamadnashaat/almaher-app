@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
+import toast from 'react-hot-toast';
 import DataTable from '../../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
@@ -10,6 +11,7 @@ import { Person } from '../../../lib/types';
 import Button from '../../../../components/Button';
 import Loading from '../../../../components/Loading';
 import DownloadButton from '../../../../components/DownloadButton';
+import { deleteRequest } from '../../../lib/api';
 
 export default function Persons() {
   const pathName = usePathname();
@@ -27,7 +29,7 @@ export default function Persons() {
     url += '?status=0';
   }
 
-  const { data, error } = useSWR<Person[]>(url);
+  const { data, error, mutate: setPersons } = useSWR<Person[]>(url);
   const [globalFilter, setGlobalFilter] = useState('');
   const router = useRouter();
 
@@ -39,8 +41,28 @@ export default function Persons() {
     router.push(`/persons/update/${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    // TODO: Implement delete
+  const handleDelete = async (id: number) => {
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this person?'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      const result = await deleteRequest(`persons/delete/${id}/`);
+      toast.success(`${result.message}`, {
+        duration: 2000,
+      });
+
+      // Update data after deletion
+      setPersons();
+    } catch (error) {
+      console.error(error);
+      toast.error('Person is related to other models and cannot be deleted', {
+        duration: 2000,
+      });
+    }
   };
 
   const columns = useMemo<ColumnDef<Person, any>[]>(
