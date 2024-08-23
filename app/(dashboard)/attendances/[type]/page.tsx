@@ -58,7 +58,7 @@ export default function Attendances() {
       },
       {
         accessorKey: 'session_number',
-        header: 'Session Number',
+        header: 'الجلسة',
       },
     ];
 
@@ -67,9 +67,20 @@ export default function Attendances() {
     if (localData && localData.length > 0) {
       const days = localData[0].attendance_details.map((detail) => detail.day);
       days.forEach((day) => {
+        const date = new Date(day);
         attendanceColumns.push({
           id: day,
-          header: day,
+          header: () => (
+            <div className="flex flex-col text-sm leading-4 items-center">
+              <span className="text-gray-400">{date.getFullYear()}</span>
+              <span>
+                {date.toLocaleDateString('en-US', {
+                  month: 'numeric',
+                  day: 'numeric',
+                })}
+              </span>
+            </div>
+          ),
           cell: ({ row }) => {
             const detail = row.original.attendance_details.find(
               (d) => d.day === day
