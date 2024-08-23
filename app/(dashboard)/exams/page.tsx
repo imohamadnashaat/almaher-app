@@ -98,11 +98,17 @@ export default function Exams() {
       },
       {
         accessorKey: 'session_number',
-        header: 'رقم الجلسة',
+        header: 'الجلسة',
       },
       {
+        id: 'exam1',
         accessorFn: (row) => row.exams[0]?.mark,
-        header: 'نظري -الامتحان الأول',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">نظري</span>
+            <span className="text-gray-400">الامتحان الأول</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[0]?.exam_id,
@@ -110,8 +116,14 @@ export default function Exams() {
           ),
       },
       {
+        id: 'exam2',
         accessorFn: (row) => row.exams[1]?.mark,
-        header: 'نظري -التكميلي',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">نظري</span>
+            <span className="text-gray-400">التكميلي</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[1]?.exam_id,
@@ -119,8 +131,14 @@ export default function Exams() {
           ),
       },
       {
+        id: 'exam3',
         accessorFn: (row) => row.exams[2]?.mark,
-        header: 'نظري -الاعادة',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">نظري</span>
+            <span className="text-gray-400">الاعادة</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[2]?.exam_id,
@@ -128,8 +146,14 @@ export default function Exams() {
           ),
       },
       {
+        id: 'exam4',
         accessorFn: (row) => row.exams[3]?.mark,
-        header: 'عملي -الامتحان الأول',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">عملي</span>
+            <span className="text-gray-400">الامتحان الأول</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[3]?.exam_id,
@@ -137,8 +161,14 @@ export default function Exams() {
           ),
       },
       {
+        id: 'exam5',
         accessorFn: (row) => row.exams[4]?.mark,
-        header: 'عملي -التكميلي',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">عملي</span>
+            <span className="text-gray-400">التكميلي</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[4]?.exam_id,
@@ -146,8 +176,14 @@ export default function Exams() {
           ),
       },
       {
+        id: 'exam6',
         accessorFn: (row) => row.exams[5]?.mark,
-        header: 'عملي -الاعادة',
+        header: () => (
+          <div className="flex flex-col text-sm leading-4 items-center">
+            <span className="pb-1">عملي</span>
+            <span className="text-gray-400">الاعادة</span>
+          </div>
+        ),
         cell: ({ row }) =>
           RenderEditableCell(
             row.original.exams[5]?.exam_id,
