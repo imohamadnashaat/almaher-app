@@ -18,7 +18,11 @@ export function useSidebarStatus() {
 
 export function useCourseProvider() {
   const [course, setCourse] = useState(() => {
-    return localStorage.getItem('selectedCourseName');
+    return (
+      (typeof window !== 'undefined' &&
+        localStorage.getItem('selectedCourseName')) ||
+      ''
+    );
   });
 
   return { course, changeName: setCourse };

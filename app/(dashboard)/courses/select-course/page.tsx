@@ -12,8 +12,8 @@ export default function SelectCourse() {
   const { data, error } = useSWR<Course[]>('courses/');
   const [selectedCourseId, setSelectedCourseId] = useState(() => {
     return (
-      localStorage.getItem('selectedCourseId') ||
-      data?.[0]?.course_id?.toString() ||
+      (typeof window !== 'undefined' &&
+        localStorage.getItem('selectedCourseId')) ||
       '1'
     );
   });
