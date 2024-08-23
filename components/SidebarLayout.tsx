@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import SidebarLinks from './SidebarLinks';
+import { useSidebarStatus } from '../app/course';
+import Link from 'next/link';
 
 interface SidebarLayoutProps {
   children?: React.ReactNode;
@@ -7,6 +9,7 @@ interface SidebarLayoutProps {
 
 const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { course } = useSidebarStatus();
 
   return (
     <div dir="rtl" className="flex h-screen bg-gray-100">
@@ -28,6 +31,29 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
         <header className="flex items-center justify-between h-16 bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/courses/select-course"
+            className="flex items-center gap-2 bg-gray-100 p-2.5 text-sm px-3 rounded-lg hover:opacity-70"
+          >
+            <span className="font-semibold">{course || 'إختر الدورة'}</span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.4em"
+                height="1.4em"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 9l4-4l4 4m0 6l-4 4l-4-4"
+                />
+              </svg>
+            </span>
+          </Link>
           <div className="flex items-center">
             <h1 className="ml-4 text-2xl font-semibold text-gray-900">
               {/* Page Title */}

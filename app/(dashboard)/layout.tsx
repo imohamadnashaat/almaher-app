@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SidebarLayout from '../../components/SidebarLayout';
 import Loading from '../../components/Loading';
+import { CourseProvider } from '../course';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -29,7 +30,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <>
-      <SidebarLayout>{!isLoading ? children : <Loading />}</SidebarLayout>
+      <CourseProvider>
+        <SidebarLayout>{!isLoading ? children : <Loading />}</SidebarLayout>
+      </CourseProvider>
     </>
   );
 }
