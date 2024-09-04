@@ -11,7 +11,7 @@ import Loading from '../../../components/Loading';
 
 export default function Exams() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error, mutate } = useSWR<ExamDetails[]>(
+  const { data, error } = useSWR<ExamDetails[]>(
     `exams/get-by-course/?course_id=${selectedCourseId}`
   );
 
@@ -39,8 +39,6 @@ export default function Exams() {
         ),
       }))
     );
-    // Optionally, revalidate the SWR data to keep in sync with the server
-    mutate();
   };
 
   const handleGenerateExam = async () => {
