@@ -14,7 +14,7 @@ export default function Attendances() {
   const type = pathName.split('/').pop();
 
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error, mutate } = useSWR<Attendance[]>(
+  const { data, error } = useSWR<Attendance[]>(
     `attendances/${type}/?course_id=${selectedCourseId}`
   );
 
@@ -42,8 +42,6 @@ export default function Attendances() {
         ),
       }))
     );
-    // Optionally, revalidate the SWR data to keep in sync with the server
-    mutate();
   };
 
   const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {
