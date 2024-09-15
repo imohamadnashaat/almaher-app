@@ -56,7 +56,7 @@ export default function AttendanceSelect() {
 
       <DownloadButton
         endpoint="attendances/export/excel/attendance"
-        filename="attendance.xlsx"
+        filename="attendance.xls"
         params={{ course_id: selectedCourseId }}
         label="استخراج بيانات الحضور excel"
       />

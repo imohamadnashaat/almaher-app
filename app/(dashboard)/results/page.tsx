@@ -8,6 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Result } from '../../lib/types';
 import { postRequest, putRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
+import DownloadButton from '../../../components/DownloadButton';
 
 export default function Results() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -101,6 +102,13 @@ export default function Results() {
       >
         انشاء النتائج
       </button>
+
+      <DownloadButton
+        endpoint="results/export/excel/"
+        params={{ course_id: selectedCourseId }}
+        filename="results.xls"
+        label="Export Excel"
+      />
 
       <DataTable
         data={localData}

@@ -8,6 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ExamDetails } from '../../lib/types';
 import { postRequest, putRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
+import DownloadButton from '../../../components/DownloadButton';
 
 export default function Exams() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -203,6 +204,13 @@ export default function Exams() {
       >
         انشاء الاختبارات
       </button>
+
+      <DownloadButton
+        endpoint="exams/export/excel/"
+        params={{ course_id: selectedCourseId }}
+        filename="exams.xls"
+        label="Export Excel"
+      />
 
       <DataTable
         data={localData}

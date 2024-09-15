@@ -163,13 +163,13 @@ export default function Persons() {
 
       <DownloadButton
         endpoint="persons/export/excel/persons"
-        filename="persons.xlsx"
+        filename="persons.xls"
         label="استخراج البيانات excel"
       />
 
       <DownloadButton
         endpoint="persons/export/excel/stuck-students" // TODO: Implement stuck students export API - Update duplicated_classes endpoint
-        filename="stuck-students.xlsx"
+        filename="stuck-students.xls"
         label="استخراج بيانات الطلاب العالقين بنفس المستوى excel"
       />
 

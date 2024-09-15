@@ -104,7 +104,7 @@ export default function Sessions() {
 
       <DownloadButton
         endpoint="sessions/export/excel/sessions"
-        filename="sessions.xlsx"
+        filename="sessions.xls"
         params={{ course_id: selectedCourseId }}
         label="استخراج بيانات الجلسات excel"
       />
