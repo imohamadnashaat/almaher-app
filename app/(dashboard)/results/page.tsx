@@ -28,48 +28,54 @@ export default function Results() {
   const columns = useMemo<ColumnDef<Result, any>[]>(
     () => [
       {
-        accessorKey: 'result_id',
+        accessorKey: 'student_id',
         header: 'ID',
       },
       {
-        accessorKey: 'student_id',
-        header: 'Student ID',
-      },
-      {
         accessorKey: 'student_name',
-        header: 'Student Name',
+        header: 'الاسم',
       },
       {
         accessorKey: 'session_number',
-        header: 'Session Number',
+        header: 'الجلسة',
       },
       {
         accessorKey: 'level_name',
-        header: 'Level Name',
+        header: 'المستوى',
       },
       {
         accessorKey: 'theoretical_mark',
-        header: 'Theoretical Mark',
+        header: 'النظري',
       },
       {
         accessorKey: 'practical_mark',
-        header: 'Practical Mark',
+        header: 'العملي',
       },
       {
         accessorKey: 'result',
-        header: 'Result',
+        header: 'المحصلة',
       },
       {
         accessorKey: 'attendance',
-        header: 'Attendance',
+        header: 'الحضور',
       },
       {
         accessorKey: 'result_type',
-        header: 'Result Type',
+        header: 'النتيجة',
       },
       {
         accessorKey: 'student_pass',
-        header: 'Student Pass',
+        header: 'نجاح شرطي',
+        cell: ({ row }) => (
+          <div className="flex justify-center items-center">
+            <input
+              disabled
+              type="checkbox"
+              checked={row.original.student_pass}
+              readOnly
+            />
+          </div>
+        ),
       },
     ],
     []
