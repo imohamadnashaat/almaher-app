@@ -24,7 +24,7 @@ export default function Update() {
     defaultValues: data || {},
   });
 
-  if (error) return <div className="text-red-500 p-4">Failed to load</div>;
+  // if (error) return<div className="text-red-500 p-4">Failed to load</div>;
   if (!data) return <Loading />;
 
   const onSubmit = async (formData: Session) => {

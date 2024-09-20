@@ -100,7 +100,7 @@ export default function Attendances() {
     return [...commonColumns, ...attendanceColumns];
   }, [localData]);
 
-  if (error) return <div>Failed to load. {error.message}</div>;
+  // if (error) return<div>Failed to load. {error.message}</div>;
   if (!localData) return <Loading />;
 
   return (

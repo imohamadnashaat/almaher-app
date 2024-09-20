@@ -34,7 +34,7 @@ export default function Levels() {
     []
   );
 
-  if (error) return <div>Failed to load. {error.message}</div>;
+  // if (error) return<div>Failed to load. {error.message}</div>;
   if (!data) return <Loading />;
 
   return (

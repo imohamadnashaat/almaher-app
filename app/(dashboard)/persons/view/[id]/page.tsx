@@ -11,7 +11,7 @@ export default function PersonView() {
 
   const { data, error } = useSWR<Person>(`persons/${id}`);
 
-  if (error) return <div className="text-red-500 p-4">Failed to load</div>;
+  // if (error) return<div className="text-red-500 p-4">Failed to load</div>;
   if (!data) return <Loading />;
 
   return (
