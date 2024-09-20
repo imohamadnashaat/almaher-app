@@ -31,7 +31,7 @@ export default function PersonUpdate() {
     try {
       const result = await putRequest(`persons/update/${id}/`, formData);
       reset(result);
-      toast.success('تم تحديث البيانات بنجاح', {
+      toast.success('Data updated successfully', {
         duration: 5000,
       });
     } catch (error) {

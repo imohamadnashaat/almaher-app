@@ -8,6 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Attendance } from '../../../lib/types';
 import { putRequest } from '../../../lib/api';
 import Loading from '../../../../components/Loading';
+import toast from 'react-hot-toast';
 
 export default function Attendances() {
   const pathName = usePathname();
@@ -28,20 +29,29 @@ export default function Attendances() {
   }, [data]);
 
   const handleToggle = async (id: number) => {
-    const updatedAttendance = await putRequest(`attendances/toggle/${id}/`);
-    if (!updatedAttendance) {
-      alert('Failed to update attendance');
-      return;
+    try {
+      const updatedAttendance = await putRequest(`attendances/toggle/${id}/`);
+      if (!updatedAttendance) {
+        toast.error('Failed to update attendance', {
+          duration: 2000,
+        });
+        return;
+      }
+      // Update local data state to reflect the change
+      setLocalData((prevData) =>
+        prevData!.map((attendance) => ({
+          ...attendance,
+          attendance_details: attendance.attendance_details.map((detail) =>
+            detail.id === id ? { ...detail, status: !detail.status } : detail
+          ),
+        }))
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to update attendance', {
+        duration: 2000,
+      });
     }
-    // Update local data state to reflect the change
-    setLocalData((prevData) =>
-      prevData!.map((attendance) => ({
-        ...attendance,
-        attendance_details: attendance.attendance_details.map((detail) =>
-          detail.id === id ? { ...detail, status: !detail.status } : detail
-        ),
-      }))
-    );
   };
 
   const columns = useMemo<ColumnDef<Attendance, any>[]>(() => {

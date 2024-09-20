@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import DataTable from '../../../components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Result } from '../../lib/types';
-import { postRequest, putRequest } from '../../lib/api';
+import { postRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
 import DownloadButton from '../../../components/DownloadButton';
 

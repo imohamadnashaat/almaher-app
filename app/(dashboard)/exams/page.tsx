@@ -30,7 +30,7 @@ export default function Exams() {
     try {
       const updatedMark = await putRequest(`exams/update/${examId}/`, { mark });
       if (!updatedMark) {
-        toast.error('Error while updating exam mark', {
+        toast.error('Failed to update exam mark', {
           duration: 2000,
         });
         return;
@@ -46,7 +46,7 @@ export default function Exams() {
       );
     } catch (error) {
       console.error(error);
-      toast.error('Error while updating exam mark', {
+      toast.error('Failed to update exam mark', {
         duration: 2000,
       });
     }

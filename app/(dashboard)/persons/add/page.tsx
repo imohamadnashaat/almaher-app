@@ -18,7 +18,7 @@ export default function PersonAdd() {
     try {
       const result = await postRequest('persons/add/', data);
       reset();
-      toast.success('تم إضافة الشخص بنجاح', {
+      toast.success('Person added successfully', {
         duration: 5000,
       });
     } catch (error) {
