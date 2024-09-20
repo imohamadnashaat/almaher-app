@@ -19,7 +19,7 @@ export default function Attendances() {
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
-  const [localData, setLocalData] = useState<Attendance[]>([]);
+  const [localData, setLocalData] = useState<Attendance[] | null>(null);
 
   useEffect(() => {
     if (data) {
@@ -35,7 +35,7 @@ export default function Attendances() {
     }
     // Update local data state to reflect the change
     setLocalData((prevData) =>
-      prevData.map((attendance) => ({
+      prevData!.map((attendance) => ({
         ...attendance,
         attendance_details: attendance.attendance_details.map((detail) =>
           detail.id === id ? { ...detail, status: !detail.status } : detail

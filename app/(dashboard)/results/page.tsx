@@ -17,7 +17,7 @@ export default function Results() {
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
-  const [localData, setLocalData] = useState<Result[]>([]);
+  const [localData, setLocalData] = useState<Result[] | null>(null);
 
   useEffect(() => {
     if (data) {
