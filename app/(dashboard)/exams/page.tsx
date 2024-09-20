@@ -13,18 +13,18 @@ import { debounce } from '../../lib/debounce';
 
 export default function Exams() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
-  const { data, error } = useSWR<ExamDetails[]>(
+  const { data: fetchedData, error } = useSWR<ExamDetails[]>(
     `exams/get-by-course/?course_id=${selectedCourseId}`
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
-  const [localData, setLocalData] = useState<ExamDetails[]>([]);
+  const [data, setData] = useState<ExamDetails[] | null>(null);
 
   useEffect(() => {
-    if (data) {
-      setLocalData(data);
+    if (fetchedData) {
+      setData(fetchedData);
     }
-  }, [data]);
+  }, [fetchedData]);
 
   const handleUpdateExamMark = async (examId: number, mark: number) => {
     const updatedMark = await putRequest(`exams/update/${examId}/`, { mark });
@@ -33,8 +33,8 @@ export default function Exams() {
       return;
     }
     // Update local data state to reflect the change
-    setLocalData((prevData) =>
-      prevData.map((exam) => ({
+    setData((prevData) =>
+      prevData!.map((exam) => ({
         ...exam,
         exams: exam.exams.map((detail) =>
           detail.exam_id === examId ? { ...detail, mark } : detail
@@ -60,8 +60,6 @@ export default function Exams() {
   };
 
   const RenderEditableCell = (examId: number, initialMark: number) => {
-    const [mark, setMark] = useState<number>(initialMark);
-
     const ref = React.useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,15 +70,15 @@ export default function Exams() {
         });
         ref.current!.value = initialMark.toString();
       } else {
-        setMark(newMark);
         handleUpdateExamMark(examId, newMark);
+        ref.current!.value = newMark.toString();
       }
     };
 
     return (
       <input
         type="number"
-        defaultValue={mark}
+        defaultValue={initialMark}
         min={0}
         max={100}
         ref={ref}
@@ -199,7 +197,7 @@ export default function Exams() {
   );
 
   // if (error) return<div>Failed to load. {error.message}</div>;
-  if (!localData) return <Loading />;
+  if (!data) return <Loading />;
 
   return (
     <>
@@ -218,7 +216,7 @@ export default function Exams() {
       />
 
       <DataTable
-        data={localData}
+        data={data}
         columns={columns}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
