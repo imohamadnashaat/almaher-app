@@ -9,6 +9,7 @@ import { ExamDetails } from '../../lib/types';
 import { postRequest, putRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
 import DownloadButton from '../../../components/DownloadButton';
+import { debounce } from '../../lib/debounce';
 
 export default function Exams() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -61,25 +62,29 @@ export default function Exams() {
   const RenderEditableCell = (examId: number, initialMark: number) => {
     const [mark, setMark] = useState<number>(initialMark);
 
+    const ref = React.useRef<HTMLInputElement>(null);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newMark = parseFloat(e.target.value);
       if (newMark < 0 || newMark > 100) {
         toast.error('Mark should be between 0 and 100', {
           duration: 2000,
         });
-        return;
+        ref.current!.value = initialMark.toString();
+      } else {
+        setMark(newMark);
+        handleUpdateExamMark(examId, newMark);
       }
-      setMark(newMark);
-      handleUpdateExamMark(examId, newMark);
     };
 
     return (
       <input
         type="number"
-        value={mark}
+        defaultValue={mark}
         min={0}
         max={100}
-        onChange={handleChange}
+        ref={ref}
+        onChange={debounce(handleChange)}
         className="w-full border-gray-300 rounded-md"
       />
     );
