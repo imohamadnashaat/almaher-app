@@ -27,20 +27,29 @@ export default function Exams() {
   }, [fetchedData]);
 
   const handleUpdateExamMark = async (examId: number, mark: number) => {
-    const updatedMark = await putRequest(`exams/update/${examId}/`, { mark });
-    if (!updatedMark) {
-      alert('Failed to update mark');
-      return;
+    try {
+      const updatedMark = await putRequest(`exams/update/${examId}/`, { mark });
+      if (!updatedMark) {
+        toast.error('Error while updating exam mark', {
+          duration: 2000,
+        });
+        return;
+      }
+      // Update local data state to reflect the change
+      setData((prevData) =>
+        prevData!.map((exam) => ({
+          ...exam,
+          exams: exam.exams.map((detail) =>
+            detail.exam_id === examId ? { ...detail, mark } : detail
+          ),
+        }))
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error('Error while updating exam mark', {
+        duration: 2000,
+      });
     }
-    // Update local data state to reflect the change
-    setData((prevData) =>
-      prevData!.map((exam) => ({
-        ...exam,
-        exams: exam.exams.map((detail) =>
-          detail.exam_id === examId ? { ...detail, mark } : detail
-        ),
-      }))
-    );
   };
 
   const handleGenerateExam = async () => {
