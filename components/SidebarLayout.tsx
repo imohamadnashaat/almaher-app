@@ -46,9 +46,9 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                 <path
                   fill="none"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
                   d="m8 9l4-4l4 4m0 6l-4 4l-4-4"
                 />
               </svg>

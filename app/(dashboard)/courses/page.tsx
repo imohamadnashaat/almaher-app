@@ -15,33 +15,32 @@ export default function Courses() {
     () => [
       {
         accessorKey: 'course_id',
-        header: 'Course ID',
+        header: '#',
       },
       {
         accessorKey: 'course_name',
-        header: 'Course Name',
+        header: 'الدورة',
       },
       {
         accessorKey: 'start_date',
-        header: 'Start Date',
+        header: 'تاريخ البدء',
       },
       {
         accessorKey: 'end_date',
-        header: 'End Date',
+        header: 'تاريخ الانتهاء',
       },
       {
         accessorKey: 'num_of_session',
-        header: 'Number of Sessions',
+        header: 'عدد الجلسات',
       },
       {
         accessorKey: 'create_date',
-        header: 'Create Date',
+        header: 'تاريخ الإنشاء',
       },
     ],
     []
   );
 
-  // if (error) return<div>Failed to load. {error.message}</div>;
   if (!data) return <Loading />;
 
   return (
