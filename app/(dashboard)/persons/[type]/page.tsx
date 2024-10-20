@@ -20,9 +20,9 @@ export default function Persons() {
   if (type === 'all') {
     url += '';
   } else if (type === 'students') {
-    url += '?type=Student';
+    url += '?type=Student&status=1';
   } else if (type === 'teachers') {
-    url += '?type=Teacher';
+    url += '?type=Teacher&status=1';
   } else if (type === 'graduates') {
     url += '?type=Graduate';
   } else {

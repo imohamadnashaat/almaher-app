@@ -55,7 +55,8 @@ export default function PersonUpdate() {
               <select
                 {...register('type_id', { required: true })}
                 defaultValue={data.type_id}
-                className="border p-2 rounded w-full text-center"
+                className="border p-2 rounded w-full text-center bg-gray-200"
+                disabled
               >
                 <option value="Student">طالب</option>
                 <option value="Teacher">مدرس</option>

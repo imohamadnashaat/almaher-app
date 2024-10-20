@@ -80,6 +80,7 @@ export default function Sessions() {
             <button
               onClick={() => handleDelete(row.original.session_id)}
               className="text-red-500 hover:underline"
+              disabled
             >
               Del
             </button>
