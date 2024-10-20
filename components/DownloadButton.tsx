@@ -28,7 +28,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       toast.error('حدث خطأ أثناء تنزيل الملف', {
-        duration: 5000,
+        duration: 4000,
       });
       console.error('Download failed:', error);
     }

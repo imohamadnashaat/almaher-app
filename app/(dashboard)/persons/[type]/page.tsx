@@ -52,7 +52,7 @@ export default function Persons() {
     try {
       const result = await deleteRequest(`persons/delete/${id}/`);
       toast.success(`${result.message}`, {
-        duration: 2000,
+        duration: 4000,
       });
 
       // Update data after deletion
@@ -60,7 +60,7 @@ export default function Persons() {
     } catch (error) {
       console.error(error);
       toast.error('Person is related to other models and cannot be deleted', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };
@@ -159,7 +159,7 @@ export default function Persons() {
 
   return (
     <>
-      <Button label="إضافة شخص" redirectTo="/persons/add" />
+      <Button label="إضافة" redirectTo="/persons/add" />
 
       <DownloadButton
         endpoint="persons/export/excel/persons"

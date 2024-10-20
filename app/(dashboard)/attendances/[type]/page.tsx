@@ -33,7 +33,7 @@ export default function Attendances() {
       const updatedAttendance = await putRequest(`attendances/toggle/${id}/`);
       if (!updatedAttendance) {
         toast.error('Failed to update attendance', {
-          duration: 2000,
+          duration: 4000,
         });
         return;
       }
@@ -49,7 +49,7 @@ export default function Attendances() {
     } catch (error) {
       console.error(error);
       toast.error('Failed to update attendance', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };

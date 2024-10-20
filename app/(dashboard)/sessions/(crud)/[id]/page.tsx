@@ -42,7 +42,7 @@ export default function SessionView() {
     try {
       const result = await postRequest('sessions/students/add/', body);
       toast.success('Data updated successfully', {
-        duration: 2000,
+        duration: 4000,
       });
       // Update the students list, and the wait list
       mutate(
@@ -52,7 +52,7 @@ export default function SessionView() {
     } catch (error) {
       console.error(error);
       toast.error('Error while adding student', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };
@@ -63,7 +63,7 @@ export default function SessionView() {
         `sessions/students/delete/${sessionStudentId}`
       );
       toast.success('Data updated successfully', {
-        duration: 2000,
+        duration: 4000,
       });
       // Update the students list, and the wait list
       mutate(
@@ -73,7 +73,7 @@ export default function SessionView() {
     } catch (error) {
       console.error(error);
       toast.error('حدث خطأ أثناء تحديث البيانات', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };

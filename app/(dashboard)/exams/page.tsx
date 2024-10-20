@@ -31,7 +31,7 @@ export default function Exams() {
       const updatedMark = await putRequest(`exams/update/${examId}/`, { mark });
       if (!updatedMark) {
         toast.error('Failed to update exam mark', {
-          duration: 2000,
+          duration: 4000,
         });
         return;
       }
@@ -47,7 +47,7 @@ export default function Exams() {
     } catch (error) {
       console.error(error);
       toast.error('Failed to update exam mark', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };
@@ -58,12 +58,12 @@ export default function Exams() {
         `exams/generate/?course_id=${selectedCourseId}`
       );
       toast.success(`${result.message}`, {
-        duration: 2000,
+        duration: 4000,
       });
     } catch (error) {
       console.error(error);
       toast.error('Error while generating exams', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };
@@ -75,7 +75,7 @@ export default function Exams() {
       const newMark = parseFloat(e.target.value);
       if (newMark < 0 || newMark > 100) {
         toast.error('Mark should be between 0 and 100', {
-          duration: 2000,
+          duration: 4000,
         });
         ref.current!.value = initialMark.toString();
       } else {

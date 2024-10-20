@@ -87,12 +87,12 @@ export default function Results() {
         `results/generate/?course_id=${selectedCourseId}`
       );
       toast.success(`${result.message}`, {
-        duration: 2000,
+        duration: 4000,
       });
     } catch (error) {
       console.error(error);
       toast.error('Error while generating results', {
-        duration: 2000,
+        duration: 4000,
       });
     }
   };

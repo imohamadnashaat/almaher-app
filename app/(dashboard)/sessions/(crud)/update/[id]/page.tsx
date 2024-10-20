@@ -32,7 +32,7 @@ export default function Update() {
       const result = await putRequest(`sessions/update/${id}/`, formData);
       reset(result);
       toast.success('Data updated successfully', {
-        duration: 5000,
+        duration: 4000,
       });
     } catch (error) {
       console.error(error);
