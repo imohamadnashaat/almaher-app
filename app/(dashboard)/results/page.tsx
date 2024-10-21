@@ -9,6 +9,7 @@ import { Result } from '../../lib/types';
 import { postRequest } from '../../lib/api';
 import Loading from '../../../components/Loading';
 import DownloadButton from '../../../components/DownloadButton';
+import Button from '../../../components/Button';
 
 export default function Results() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -97,7 +98,22 @@ export default function Results() {
     }
   };
 
-  // if (error) return<div>Failed to load. {error.message}</div>;
+  const handlePassStudents = async () => {
+    try {
+      const result = await postRequest(
+        `results/pass-students/?course_id=${selectedCourseId}`
+      );
+      toast.success(`${result.message}`, {
+        duration: 4000,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('Error while passing students', {
+        duration: 4000,
+      });
+    }
+  };
+
   if (!localData) return <Loading />;
 
   return (
@@ -106,7 +122,14 @@ export default function Results() {
         className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
         onClick={handleGenerateResults}
       >
-        انشاء النتائج
+        تحضير النتائج
+      </button>
+
+      <button
+        className="bg-blue-500 text-white p-2 mb-4 rounded-lg hover:bg-blue-700 transition-colors mx-2"
+        onClick={handlePassStudents}
+      >
+        ترحيل الطلاب
       </button>
 
       <DownloadButton
