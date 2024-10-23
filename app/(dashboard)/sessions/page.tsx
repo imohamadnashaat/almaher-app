@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { SessionDetails } from '../../lib/types';
 import Loading from '../../../components/Loading';
 import DownloadButton from '../../../components/DownloadButton';
+import Button from '../../../components/Button';
 
 export default function Sessions() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -91,17 +92,11 @@ export default function Sessions() {
     [router]
   );
 
-  // if (error) return<div>Failed to load. {error.message}</div>;
   if (!data) return <Loading />;
 
   return (
     <>
-      <button
-        className="bg-gray-400 text-white p-2 mb-4 rounded-lg transition-colors mx-2"
-        disabled
-      >
-        انشاء الجلسات
-      </button>
+      <Button label="انشاء الجلسات" redirectTo="/sessions/generate" />
 
       <DownloadButton
         endpoint="sessions/export/excel/sessions"

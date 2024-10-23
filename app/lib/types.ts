@@ -81,6 +81,20 @@ export interface Result {
   level_name?: string;
 }
 
+export interface GenerateSessionRequest {
+  level_id: string;
+  position_id: string;
+  time_id: string;
+  active_students: number;
+  unknown_students: number;
+  num_of_session: number;
+}
+
+export interface GenerateSessionsRequest {
+  course_id?: number;
+  levels: GenerateSessionRequest[];
+}
+
 export interface Session {
   session_id: number;
   teacher_full_name: string;
