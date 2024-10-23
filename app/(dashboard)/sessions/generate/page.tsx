@@ -34,11 +34,11 @@ export default function CourseAdd() {
             level_key: key,
             level_id: levels?.find((level) => level.level_id === Number(key))
               ?.level_name,
-            position_id: data.levels[key].position_id,
-            time_id: data.levels[key].time_id,
-            active_students: data.levels[key].active_students,
-            unknown_students: data.levels[key].unknown_students,
-            num_of_session: data.levels[key].num_of_session,
+            position_id: data.levels[Number(key)].position_id,
+            time_id: data.levels[Number(key)].time_id,
+            active_students: data.levels[Number(key)].active_students,
+            unknown_students: data.levels[Number(key)].unknown_students,
+            num_of_session: data.levels[Number(key)].num_of_session,
           }))
           .sort((a, b) => Number(b.level_key) - Number(a.level_key)), // Sorting by level_key in descending order
       };
