@@ -3,10 +3,12 @@
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { GenerateSessionsRequest, Period, Position } from '../../../lib/types';
-import { postRequest } from '../../../lib/api';
+import { postRequest, fetchWithToken } from '../../../lib/api';
 import { useRouter } from 'next/navigation';
 import { Level } from '../../levels/page';
 import useSWR from 'swr';
+import { useEffect, useState } from 'react';
+import Loading from '../../../../components/Loading';
 
 export default function CourseAdd() {
   const router = useRouter();
@@ -17,6 +19,10 @@ export default function CourseAdd() {
     useSWR<Position[]>('positions');
   const { data: times, error: errorTimes } = useSWR<Period[]>('periods');
 
+  const [studentCounts, setStudentCounts] = useState<{
+    [key: number]: { active: number; unknown: number };
+  }>({}); // State to store student counts
+
   const {
     register,
     handleSubmit,
@@ -24,6 +30,49 @@ export default function CourseAdd() {
     formState: { errors },
     setError,
   } = useForm<GenerateSessionsRequest>();
+
+  const fetchStudentCountForAllLevels = async () => {
+    if (!levels) return;
+
+    try {
+      const countsPromises = levels.map(async (level) => {
+        const activeResponse = await fetchWithToken(
+          `levels/${level.level_name}/students/count/?priority_id=مستمر`,
+          {}
+        );
+        const unknownResponse = await fetchWithToken(
+          `levels/${level.level_name}/students/count/?priority_id=غير معروف`,
+          {}
+        );
+
+        const activeCount = activeResponse.count; // Extract count from response
+        const unknownCount = unknownResponse.count; // Extract count from response
+
+        return {
+          id: level.level_id,
+          active: activeCount,
+          unknown: unknownCount,
+        };
+      });
+
+      const counts = await Promise.all(countsPromises);
+
+      // Set the fetched counts into state
+      const countsMap: { [key: number]: { active: number; unknown: number } } =
+        {};
+      counts.forEach((count) => {
+        countsMap[count.id] = { active: count.active, unknown: count.unknown };
+      });
+      setStudentCounts(countsMap); // Save counts in state
+    } catch (error) {
+      console.error(error);
+      toast.error('Error fetching student counts.');
+    }
+  };
+
+  useEffect(() => {
+    fetchStudentCountForAllLevels(); // Fetch student counts once when levels are loaded
+  }, [levels]);
 
   const onSubmit = async (data: GenerateSessionsRequest) => {
     try {
@@ -55,8 +104,13 @@ export default function CourseAdd() {
     }
   };
 
-  if (errorLevels || errorPositions || errorTimes) {
-    return <div className="text-red-500">Error loading data!</div>;
+  if (
+    !levels ||
+    !positions ||
+    !times ||
+    Object.keys(studentCounts).length === 0
+  ) {
+    return <Loading />;
   }
 
   return (
@@ -132,13 +186,16 @@ export default function CourseAdd() {
                         </div>
                       )}
                     </div>
-                    {/* Number of active students */}
+                    {/* Number of active students (show fetched counts) */}
                     <div>
                       <label
                         htmlFor={`levels.${level.level_id}.active_students`}
                         className="block text-sm font-medium text-gray-700"
                       >
-                        عدد الطلاب &quot;المستمرين&quot;
+                        عدد الطلاب &quot;المستمرين&quot; :{' '}
+                        <span className="font-bold">
+                          {studentCounts[level.level_id].active}
+                        </span>
                       </label>
                       <input
                         {...register(
@@ -148,6 +205,7 @@ export default function CourseAdd() {
                           }
                         )}
                         type="number"
+                        min={0}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md text-center"
                       />
                       {errors.levels?.[level.level_id]?.active_students && (
@@ -159,13 +217,16 @@ export default function CourseAdd() {
                         </div>
                       )}
                     </div>
-                    {/* Number of unknown students */}
+                    {/* Number of unknown students (show fetched counts) */}
                     <div>
                       <label
                         htmlFor={`levels.${level.level_id}.unknown_students`}
                         className="block text-sm font-medium text-gray-700"
                       >
-                        عدد الطلاب &quot;غير معروف&quot;
+                        عدد الطلاب &quot;غير معروف&quot; :{' '}
+                        <span className="font-bold">
+                          {studentCounts[level.level_id].unknown}
+                        </span>
                       </label>
                       <input
                         {...register(
@@ -173,6 +234,7 @@ export default function CourseAdd() {
                           { required: 'عدد الطلاب "غير معروف" مطلوب' }
                         )}
                         type="number"
+                        min={0}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md text-center"
                       />
                       {errors.levels?.[level.level_id]?.unknown_students && (
@@ -200,6 +262,7 @@ export default function CourseAdd() {
                           }
                         )}
                         type="number"
+                        min={0}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md text-center"
                       />
                       {errors.levels?.[level.level_id]?.num_of_session && (
