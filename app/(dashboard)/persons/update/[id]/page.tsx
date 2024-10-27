@@ -53,7 +53,6 @@ export default function PersonUpdate() {
             <div>
               <dt className="font-semibold">نوع:</dt>
               <select
-                {...register('type_id', { required: true })}
                 defaultValue={data.type_id}
                 className="border p-2 rounded w-full text-center bg-gray-200"
                 disabled
@@ -62,9 +61,6 @@ export default function PersonUpdate() {
                 <option value="Teacher">مدرس</option>
                 <option value="Graduate">خريج</option>
               </select>
-              {errors.type_id && (
-                <span className="text-red-500">هذا الحقل مطلوب</span>
-              )}
             </div>
             <div>
               <dt className="font-semibold">مستوى:</dt>
