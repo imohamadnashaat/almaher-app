@@ -87,9 +87,11 @@ export default function SessionView() {
   return (
     <div className="container mx-auto p-4">
       <SessionsManagement
-        showArrow={true}
-        sessionId={sessionData.session_id}
-        sessionNo={sessionData.session_number}
+        params={{
+          showArrow: true,
+          sessionId: sessionData.session_id,
+          sessionNo: sessionData.session_number,
+        }}
       />
 
       <h1 className="text-2xl font-bold mb-8">بيانات الجلسة</h1>

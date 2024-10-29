@@ -7,15 +7,11 @@ import { Session } from '../../../lib/types';
 import Loading from '../../../../components/Loading';
 
 interface SessionsManagementProps {
-  showArrow: boolean;
-  sessionId: number;
-  sessionNo: number;
+  params: { showArrow: boolean; sessionId: number; sessionNo: number };
 }
 
 export default function SessionsManagement({
-  showArrow = false,
-  sessionId,
-  sessionNo,
+  params: { showArrow = false, sessionId, sessionNo },
 }: SessionsManagementProps) {
   const router = useRouter();
   const [targetSession, setTargetSession] = useState('');
