@@ -144,6 +144,8 @@ export interface SessionAvailableStudent {
   person_id: number;
   first_name: string;
   last_name: string;
+  father_name: string;
   bdate: string;
   level_id_id: string;
+  priority_id: string;
 }

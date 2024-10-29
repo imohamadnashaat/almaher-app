@@ -37,6 +37,10 @@ export default function SessionsStudentsWaitlist() {
         accessorKey: 'level_id_id',
         header: 'المستوى',
       },
+      {
+        accessorKey: 'priority_id',
+        header: 'الاولوية',
+      },
     ],
     []
   );

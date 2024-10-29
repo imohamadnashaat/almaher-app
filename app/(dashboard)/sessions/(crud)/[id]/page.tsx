@@ -80,6 +80,7 @@ export default function SessionView() {
 
   if (sessionError || sessionStudentsError || waitListError)
     return <div className="text-red-500">Failed to load</div>;
+
   if (!sessionData || !sessionStudentsData || !availableStudentsData)
     return <Loading />;
 
@@ -177,9 +178,9 @@ export default function SessionView() {
                 <td className="px-4 py-2">
                   {student.first_name} {student.last_name}
                 </td>
-                <td className="px-4 py-2">{'father_name'}</td>
+                <td className="px-4 py-2">{student.father_name}</td>
                 <td className="px-4 py-2">{student.bdate}</td>
-                <td className="px-4 py-2">{'priority_id'}</td>
+                <td className="px-4 py-2">{student.priority_id}</td>
                 <td className="px-4 py-2">{student.level_id_id}</td>
                 <td className="px-4 py-2 text-start">
                   <button
