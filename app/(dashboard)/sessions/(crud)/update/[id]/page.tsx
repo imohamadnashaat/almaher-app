@@ -1,18 +1,26 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { Session } from '../../../../../lib/types';
+import { Person, Session } from '../../../../../lib/types';
 import { putRequest } from '../../../../../lib/api';
 import Loading from '../../../../../../components/Loading';
 
 export default function Update() {
+  const selectedCourseId = localStorage.getItem('selectedCourseId');
+
+  const router = useRouter();
   const pathName = usePathname();
   const id = pathName.split('/').pop();
 
-  const { data, error } = useSWR<Session>(`sessions/${id}`);
+  const { data, error } = useSWR<Session>(`sessions/${id}/`);
+  const { data: teachers, error: teachersError } = useSWR<Person[]>(
+    data
+      ? `courses/${selectedCourseId}/teachers/available/?level_name=${data.level_id}`
+      : null
+  );
 
   const {
     register,
@@ -24,16 +32,15 @@ export default function Update() {
     defaultValues: data || {},
   });
 
-  // if (error) return<div className="text-red-500 p-4">Failed to load</div>;
-  if (!data) return <Loading />;
+  if (!data || !teachers) return <Loading />;
 
   const onSubmit = async (formData: Session) => {
     try {
       const result = await putRequest(`sessions/update/${id}/`, formData);
-      reset(result);
       toast.success('Data updated successfully', {
         duration: 4000,
       });
+      router.push('/sessions');
     } catch (error) {
       console.error(error);
       setError('root', {
@@ -55,53 +62,43 @@ export default function Update() {
               <input
                 type="text"
                 defaultValue={data.session_number}
-                className="border p-2 rounded w-full bg-gray-200"
+                className="border p-2 rounded w-full bg-gray-200 text-center"
                 disabled
               />
             </div>
-
-            <div>
-              <dt className="font-semibold">اسم المدرس:</dt>
-              <input
-                type="text"
-                defaultValue={data.teacher_full_name}
-                className="border p-2 rounded w-full bg-gray-200"
-                disabled
-              />
-            </div>
-
-            {/* <div>
-              <dt className="font-semibold">رقم المدرس:</dt>
-              <input
-                type="text"
-                {...register('teacher_id', { required: true })}
-                defaultValue={data.teacher_id}
-                className="border p-2 rounded w-full"
-              />
-              {errors.teacher_id && (
-                <span className="text-red-500">هذا الحقل مطلوب</span>
-              )}
-            </div> */}
 
             <div>
               <dt className="font-semibold">مستوى:</dt>
-              <select
-                {...register('level_id', { required: true })}
+              <input
+                type="text"
                 defaultValue={data.level_id}
+                className="border p-2 rounded w-full bg-gray-200 text-center"
+                disabled
+              />
+            </div>
+
+            <div>
+              <dt className="font-semibold">المدرس:</dt>
+              <select
+                {...register('teacher_id', { required: true })}
+                defaultValue={data.teacher_full_name || ''}
                 className="border p-2 rounded w-full text-center"
               >
-                <option value="مبتدئ أ">مبتدئ أ</option>
-                <option value="مبتدئ ب">مبتدئ ب</option>
-                <option value="متوسط أ">متوسط أ</option>
-                <option value="متوسط ب">متوسط ب</option>
-                <option value="متقدم أ">متقدم أ</option>
-                <option value="متقدم ب">متقدم ب</option>
+                <option value={data.teacher_id ? data.teacher_id : ''}>
+                  {data.teacher_id ? data.teacher_full_name : 'اختر مدرس'}
+                </option>
+                {teachers.map((teacher) => (
+                  <option key={teacher.person_id} value={teacher.person_id}>
+                    {teacher.first_name} {teacher.last_name}
+                  </option>
+                ))}
               </select>
-              {errors.level_id && (
+              {errors.teacher_id && (
                 <span className="text-red-500">هذا الحقل مطلوب</span>
               )}
             </div>
           </dl>
+
           <div className="text-center mt-6">
             <button
               type="submit"
