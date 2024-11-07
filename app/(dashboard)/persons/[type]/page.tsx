@@ -118,7 +118,16 @@ export default function Persons() {
       {
         accessorKey: 'status',
         header: 'الحالة',
-        cell: (info) => (info.getValue() ? '🟢' : '🔴'),
+        cell: (info) =>
+          info.getValue() ? (
+            <div>
+              <input type="checkbox" checked disabled />
+            </div>
+          ) : (
+            <div>
+              <input type="checkbox" disabled />
+            </div>
+          ),
       },
       {
         accessorKey: 'create_date',
