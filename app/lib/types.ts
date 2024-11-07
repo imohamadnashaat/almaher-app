@@ -15,6 +15,26 @@ export interface Person {
   create_date: string;
 }
 
+export interface PersonHistory {
+  teachers: {
+    course_id: number;
+    level_name: string;
+    session_number: number;
+  }[];
+  students: {
+    bdate: string;
+    course_id: number;
+    level_name: string;
+    session_number: number;
+    teacher_id: string;
+    attendance: number;
+    theoretical_mark: number;
+    practical_mark: number;
+    result: number;
+    result_type: string;
+  }[];
+}
+
 export interface Course {
   course_id: number;
   course_name: string;
