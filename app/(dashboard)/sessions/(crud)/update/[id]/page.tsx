@@ -17,9 +17,7 @@ export default function Update() {
 
   const { data, error } = useSWR<Session>(`sessions/${id}/`);
   const { data: teachers, error: teachersError } = useSWR<Person[]>(
-    data
-      ? `courses/${selectedCourseId}/teachers/available/?level_name=${data.level_id}`
-      : null
+    data ? `courses/${selectedCourseId}/teachers/available/` : null
   );
 
   const {
