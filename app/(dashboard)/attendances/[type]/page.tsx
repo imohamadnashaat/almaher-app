@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import DataTable from '../../../../components/DataTable';
@@ -20,13 +20,6 @@ export default function Attendances() {
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
-  const [localData, setLocalData] = useState<Attendance[] | null>(null);
-
-  useEffect(() => {
-    if (data) {
-      setLocalData(data);
-    }
-  }, [data]);
 
   const handleToggle = async (id: number) => {
     try {
@@ -37,15 +30,6 @@ export default function Attendances() {
         });
         return;
       }
-      // Update local data state to reflect the change
-      setLocalData((prevData) =>
-        prevData!.map((attendance) => ({
-          ...attendance,
-          attendance_details: attendance.attendance_details.map((detail) =>
-            detail.id === id ? { ...detail, status: !detail.status } : detail
-          ),
-        }))
-      );
     } catch (error) {
       console.error(error);
       toast.error('Failed to update attendance', {
@@ -72,8 +56,8 @@ export default function Attendances() {
 
     // Dynamically create columns for each day in attendance_details
     const attendanceColumns: ColumnDef<Attendance, any>[] = [];
-    if (localData && localData.length > 0) {
-      const days = localData[0].attendance_details.map((detail) => detail.day);
+    if (data && data.length > 0) {
+      const days = data[0].attendance_details.map((detail) => detail.day);
       days.forEach((day) => {
         const date = new Date(day);
         attendanceColumns.push({
@@ -97,7 +81,7 @@ export default function Attendances() {
               <input
                 onChange={() => handleToggle(detail.id)}
                 type="checkbox"
-                checked={detail.status}
+                defaultChecked={detail.status}
               />
             ) : (
               'N/A'
@@ -108,14 +92,13 @@ export default function Attendances() {
     }
 
     return [...commonColumns, ...attendanceColumns];
-  }, [localData]);
+  }, [data]);
 
-  // if (error) return<div>Failed to load. {error.message}</div>;
-  if (!localData) return <Loading />;
+  if (!data) return <Loading />;
 
   return (
     <DataTable
-      data={localData}
+      data={data}
       columns={columns}
       globalFilter={globalFilter}
       setGlobalFilter={setGlobalFilter}
