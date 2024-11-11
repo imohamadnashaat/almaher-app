@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import { Person, Session } from '../../../../../lib/types';
 import { putRequest } from '../../../../../lib/api';
 import Loading from '../../../../../../components/Loading';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Update() {
   const selectedCourseId = localStorage.getItem('selectedCourseId');
@@ -16,9 +17,9 @@ export default function Update() {
   const id = pathName.split('/').pop();
 
   const { data, error } = useSWR<Session>(`sessions/${id}/`);
-  const { data: teachers, error: teachersError } = useSWR<Person[]>(
-    data ? `courses/${selectedCourseId}/teachers/available/` : null
-  );
+  const { data: availableTeachers, error: availableTeachersError } = useSWR<
+    Person[]
+  >(data ? `courses/${selectedCourseId}/teachers/available/` : null);
 
   const {
     register,
@@ -30,7 +31,37 @@ export default function Update() {
     defaultValues: data || {},
   });
 
-  if (!data || !teachers) return <Loading />;
+  const [searchTerm, setSearchTerm] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  if (!data || !availableTeachers) return <Loading />;
+
+  const filteredTeachers = availableTeachers.filter((teacher) =>
+    `${teacher.first_name} ${teacher.last_name}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   const onSubmit = async (formData: Session) => {
     try {
@@ -77,20 +108,40 @@ export default function Update() {
 
             <div>
               <dt className="font-semibold">المدرس:</dt>
-              <select
-                {...register('teacher_id', { required: true })}
-                defaultValue={data.teacher_full_name || ''}
-                className="border p-2 rounded w-full text-center"
-              >
-                <option value={data.teacher_id ? data.teacher_id : ''}>
-                  {data.teacher_id ? data.teacher_full_name : 'اختر مدرس'}
-                </option>
-                {teachers.map((teacher) => (
-                  <option key={teacher.person_id} value={teacher.person_id}>
-                    {teacher.first_name} {teacher.last_name}
-                  </option>
-                ))}
-              </select>
+              <div className="relative" ref={dropdownRef}>
+                <div
+                  className="border p-2 rounded w-full text-center cursor-pointer"
+                  onClick={handleDropdownToggle}
+                >
+                  {data.teacher_full_name || 'اختر مدرس'}
+                </div>
+                {isDropdownOpen && (
+                  <div className="absolute z-10 w-full bg-white border rounded mt-1">
+                    <input
+                      type="text"
+                      placeholder="ابحث عن مدرس"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="border-b p-2 w-full"
+                    />
+                    <select
+                      {...register('teacher_id', { required: true })}
+                      defaultValue={data.teacher_full_name || ''}
+                      className="border-none p-2 w-full text-center"
+                      size={5}
+                    >
+                      {filteredTeachers.map((teacher) => (
+                        <option
+                          key={teacher.person_id}
+                          value={teacher.person_id}
+                        >
+                          {teacher.first_name} {teacher.last_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
               {errors.teacher_id && (
                 <span className="text-red-500">هذا الحقل مطلوب</span>
               )}
