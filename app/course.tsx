@@ -17,13 +17,16 @@ export function useSidebarStatus() {
 }
 
 export function useCourseProvider() {
-  const [course, setCourse] = useState(() => {
-    return (
-      (typeof window !== 'undefined' &&
-        localStorage.getItem('selectedCourseName')) ||
-      ''
-    );
-  });
+  const [course, setCourse] = useState<any>();
 
+  useEffect(()=>{
+    setCourse(() => {
+      return (
+        (typeof window !== 'undefined' &&
+          localStorage.getItem('selectedCourseName')) ||
+        ''
+      );
+    });
+  },[])
   return { course, changeName: setCourse };
 }

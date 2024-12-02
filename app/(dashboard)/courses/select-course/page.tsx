@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { Course } from '../../../lib/types';
@@ -10,13 +10,16 @@ import { useSidebarStatus } from '../../../course';
 export default function SelectCourse() {
   const router = useRouter();
   const { data, error } = useSWR<Course[]>('courses/');
-  const [selectedCourseId, setSelectedCourseId] = useState(() => {
-    return (
-      (typeof window !== 'undefined' &&
-        localStorage.getItem('selectedCourseId')) ||
-      '1'
-    );
-  });
+  const [selectedCourseId, setSelectedCourseId] = useState<any>();
+  useEffect(()=>{
+    setSelectedCourseId(() => {
+      return (
+        (typeof window !== 'undefined' &&
+          localStorage.getItem('selectedCourseId')) ||
+        '1'
+      );
+    });
+  },[])
   const { changeName } = useSidebarStatus();
 
   const handleSelectChange = (event: any) => {
