@@ -3,8 +3,9 @@
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Person } from '../../../lib/types';
-import { postRequest } from '../../../lib/api';
-
+import { postRequest  , fetchWithToken } from '../../../lib/api';
+import { useEffect, useState } from 'react';
+import { Level } from '../../../lib/types' ;
 export default function PersonAdd() {
   const {
     register,
@@ -13,9 +14,11 @@ export default function PersonAdd() {
     formState: { errors, isValid },
     setError,
   } = useForm<Person>();
+  const [levels , setLevels ] = useState([]);
 
   const onSubmit = async (data: Person) => {
     try {
+
       const result = await postRequest('persons/add/', data);
       reset();
       toast.success('Person added successfully', {
@@ -28,6 +31,16 @@ export default function PersonAdd() {
       });
     }
   };
+
+  const getLevels = async ()=>{
+    const json = await fetchWithToken('levels' , {}); 
+    console.log(json);
+    setLevels(json);
+  }
+  useEffect(()=>{
+    console.log('...')
+    getLevels()
+  }, [])
 
   return (
     <article className="container mx-auto p-4">
@@ -53,15 +66,22 @@ export default function PersonAdd() {
               <dt className="font-semibold">مستوى:</dt>
               <select
                 {...register('level_id', { required: true })}
-                defaultValue="مبتدئ أ"
+                itemType='number'
                 className="border p-2 rounded w-full text-center"
               >
-                <option value="مبتدئ أ">مبتدئ أ</option>
+                {/* <option value="مبتدئ أ">مبتدئ أ</option>
                 <option value="مبتدئ ب">مبتدئ ب</option>
                 <option value="متوسط أ">متوسط أ</option>
                 <option value="متوسط ب">متوسط ب</option>
                 <option value="متقدم أ">متقدم أ</option>
-                <option value="متقدم ب">متقدم ب</option>
+                <option value="متقدم ب">متقدم ب</option> */}
+                {
+                  levels?.map((level: Level )=>{
+                    return <>
+                      <option value={level.level_id}> {level.level_id} </option>
+                    </>
+                  })
+                }
               </select>
             </div>
             <div>

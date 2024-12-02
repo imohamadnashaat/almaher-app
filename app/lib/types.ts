@@ -11,7 +11,7 @@ export interface Person {
   bdate: string;
   priority_id: string;
   status: boolean;
-  level_id: string;
+  level_id: number;
   create_date: string;
 }
 
@@ -168,4 +168,10 @@ export interface SessionAvailableStudent {
   bdate: string;
   level_id_id: string;
   priority_id: string;
+}
+
+export interface Level { 
+  level_id : number ;
+  level_name : string ; 
+  create_date : any ;
 }
