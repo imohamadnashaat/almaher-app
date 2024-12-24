@@ -5,8 +5,10 @@ import toast from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { Person } from '../../../../lib/types';
-import { putRequest } from '../../../../lib/api';
+import { fetchWithToken, putRequest } from '../../../../lib/api';
 import Loading from '../../../../../components/Loading';
+import { useEffect, useState } from 'react';
+import { Level } from '@/app/(dashboard)/levels/page';
 
 export default function PersonUpdate() {
   const pathName = usePathname();
@@ -23,7 +25,17 @@ export default function PersonUpdate() {
   } = useForm<Person>({
     defaultValues: data || {},
   });
+  const [levels , setLevels ] = useState([]);
+  const getLevels: any = async ()=>{
+    const json = await fetchWithToken('levels' , {}); 
+    console.log(json);
+    setLevels(json);
+  }
 
+  useEffect(()=>{
+    console.log('...')
+    getLevels()
+  }, [])
   // if (error) return<div className="text-red-500 p-4">Failed to load</div>;
   if (!data) return <Loading />;
 
@@ -41,6 +53,7 @@ export default function PersonUpdate() {
       });
     }
   };
+
 
   return (
     <article className="container mx-auto p-4">
@@ -69,12 +82,13 @@ export default function PersonUpdate() {
                 defaultValue={data.level_id}
                 className="border p-2 rounded w-full text-center"
               >
-                <option value="مبتدئ أ">مبتدئ أ</option>
-                <option value="مبتدئ ب">مبتدئ ب</option>
-                <option value="متوسط أ">متوسط أ</option>
-                <option value="متوسط ب">متوسط ب</option>
-                <option value="متقدم أ">متقدم أ</option>
-                <option value="متقدم ب">متقدم ب</option>
+                {
+                  levels?.map((level: Level )=>{
+                    return <>
+                      <option value={level.level_id}> {level.level_id} </option>
+                    </>
+                  })
+                }
               </select>
               {errors.level_id && (
                 <span className="text-red-500">هذا الحقل مطلوب</span>
